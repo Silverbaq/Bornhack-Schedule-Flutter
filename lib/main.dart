@@ -1,4 +1,4 @@
-import 'package:bornhack/schedule/schedule.widget.dart';
+import 'package:bornhack/schedule/schedule.page.dart';
 import 'package:flutter/material.dart';
 
 import 'schedule/taptest.dart';
@@ -28,7 +28,7 @@ class Main extends StatefulWidget {
 
 class _Main extends State<Main> {
   int _currentIndex = 0;
-  final List<Widget> _children = [ScheduleWidget(), TapTest()];
+  final List<Widget> _children = [SchedulePage(), TapTest()];
 
   void onTabTapped(int index) {
     setState(() {

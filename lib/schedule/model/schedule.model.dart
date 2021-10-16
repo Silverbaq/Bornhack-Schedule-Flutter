@@ -75,9 +75,12 @@ class Room {
 }
 
 class Event {
-  Event(this.title, this.abstract, this.url, this.duration, this.start,
+  Event(this.eventId, this.guid, this.date, this.title, this.abstract, this.url, this.duration, this.start,
       this.type, this.person);
 
+  String eventId;
+  String guid;
+  DateTime date;
   String start;
   String duration;
   String url;
@@ -87,6 +90,9 @@ class Event {
   String person;
 
   static Event parseFromXml(XmlElement eventXml) {
+    String eventId = "";
+    String guid = "";
+    DateTime date = DateTime.now();
     String start = "";
     String duration = "";
     String url = "";
@@ -94,6 +100,14 @@ class Event {
     String type = "";
     String abstract = "";
     String person = "";
+
+    eventXml.attributes.forEach((attribute) {
+      if (attribute.name.local == "id") {
+        eventId = attribute.value;
+      } else if (attribute.name.local == "guid") {
+        guid = attribute.value;
+      }
+    });
 
     eventXml.children.forEach((element) {
       if (element is XmlElement) {
@@ -111,9 +125,11 @@ class Event {
           abstract = element.children.first.text.toString();
         } else if (element.name.local == "persons") {
           person = element.children.where((i) => !i.text.contains("\n") ).map((data) => data.text).toString();
+        } else if (element.name.local == "date") {
+          date = DateTime.parse(element.children.first.text);
         }
       }
     });
-    return Event(title, abstract, url, duration, start, type, person);
+    return Event(eventId, guid, date, title, abstract, url, duration, start, type, person);
   }
 }
