@@ -21,50 +21,99 @@ class EventPage extends StatelessWidget {
 }
 
 class _EventPage extends StatelessView<EventViewModel> {
-  FavoriteStorage _favoriteStorage = FavoriteStorage();
-
   @override
   Widget render(BuildContext context, EventViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.event.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+                onTap: () {
+                  viewModel.favoriteClicked();
+                },
+                child: Icon(viewModel.isEventAFavorite
+                    ? Icons.favorite_outlined
+                    : Icons.favorite_outline)),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  viewModel.event.title,
-                  style: TextStyle(fontSize: 24),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      viewModel.favoriteClicked();
-                    },
-                    child: Icon( viewModel.isEventAFavorite ? Icons.favorite_outlined : Icons.favorite_outline)
-                ),
-
-
-              ],
+            Text(
+              viewModel.event.title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 24),
             ),
             SizedBox(
               height: 16,
             ),
             Container(
-              child: Text(
-                viewModel.event.abstract,
-                style: TextStyle(fontSize: 16),
+              child: Column(
+                children: [
+                  Text(
+                    viewModel.dateTimeToStringFormat(viewModel.event.date),
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Type: ${viewModel.event.type}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        "Speaker: ${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Duration: ${viewModel.event.duration}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        "Recording: ${viewModel.event.recording ? "Yes" : "No"}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            Text(viewModel.event.person),
-            Text(viewModel.event.start),
-            Text(viewModel.event.duration),
-            Text(viewModel.event.type),
-            Text(viewModel.event.date.toIso8601String()),
-            Text(viewModel.event.recording.toString()),
+            Container(
+              child: Column(
+                children: [],
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Container(
+              child: Expanded(
+                flex: 1,
+                child: SingleChildScrollView(
+                  child: Text(
+                    viewModel.event.abstract,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
           ],
         ),
       ),

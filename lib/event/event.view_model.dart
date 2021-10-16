@@ -1,5 +1,6 @@
 import 'package:bornhack/schedule/model/schedule.model.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:pmvvm/view_model.dart';
 
 class EventViewModel extends ViewModel {
@@ -27,5 +28,10 @@ class EventViewModel extends ViewModel {
       isEventAFavorite = true;
     }
     notifyListeners();
+  }
+
+  String dateTimeToStringFormat(DateTime date){
+    String formattedDate = DateFormat('HH:mm - EEEE - MMM dd').format(date);
+    return formattedDate;
   }
 }
