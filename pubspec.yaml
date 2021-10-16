@@ -24,12 +24,12 @@ dependencies:
   flutter:
     sdk: flutter
   xml: ^5.1.1
-  pmvvm: ^2.2.0
+  pmvvm: ^2.3.0
   dio: ^4.0.0
   xml2json: ^5.3.1
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
-  localstorage: ^3.0.6
+  localstorage: ^4.0.0+1
 
 dev_dependencies:
   flutter_test:

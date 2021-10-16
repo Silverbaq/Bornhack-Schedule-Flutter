@@ -60,7 +60,10 @@ class _EventsWidget extends State<EventsWidget> {
                                           child: Icon(Icons.favorite_outline));
                                     }
                                   } else {
-                                    return Text("error");
+                                    return GestureDetector(onTap: () { _favoriteStorage.addFavorite(e.eventId);
+                                    setState(() {});
+                                    },
+                                        child: Icon(Icons.favorite_outline));
                                   }
                                 }),
                           ],

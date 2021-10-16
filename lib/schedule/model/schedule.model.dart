@@ -76,7 +76,7 @@ class Room {
 
 class Event {
   Event(this.eventId, this.guid, this.date, this.title, this.abstract, this.url, this.duration, this.start,
-      this.type, this.person);
+      this.type, this.person, this.recording);
 
   String eventId;
   String guid;
@@ -88,6 +88,7 @@ class Event {
   String type;
   String abstract;
   String person;
+  bool recording;
 
   static Event parseFromXml(XmlElement eventXml) {
     String eventId = "";
@@ -100,6 +101,7 @@ class Event {
     String type = "";
     String abstract = "";
     String person = "";
+    bool recording = false;
 
     eventXml.attributes.forEach((attribute) {
       if (attribute.name.local == "id") {
@@ -127,9 +129,17 @@ class Event {
           person = element.children.where((i) => !i.text.contains("\n") ).map((data) => data.text).toString();
         } else if (element.name.local == "date") {
           date = DateTime.parse(element.children.first.text);
+        } else if (element.name.local == "recording") {
+          String recordingString = element.toString();
+          if (recordingString.contains("true")) {
+            recording = true;
+          } else {
+            recording = false;
+          }
+          }
         }
       }
-    });
-    return Event(eventId, guid, date, title, abstract, url, duration, start, type, person);
+    );
+    return Event(eventId, guid, date, title, abstract, url, duration, start, type, person, recording);
   }
 }
