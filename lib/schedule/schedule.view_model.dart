@@ -5,7 +5,6 @@ import 'schedule.repository.dart';
 
 class ScheduleViewModel extends ViewModel {
   final _scheduleRepository = ScheduleRepository();
-
   Schedule schedule = Schedule(List.empty());
 
   @override

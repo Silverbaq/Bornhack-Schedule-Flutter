@@ -1,7 +1,6 @@
 import 'package:bornhack/schedule/schedule.page.dart';
 import 'package:flutter/material.dart';
-
-import 'schedule/taptest.dart';
+import 'favorites/favorites.page.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BornHack App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -28,7 +27,7 @@ class Main extends StatefulWidget {
 
 class _Main extends State<Main> {
   int _currentIndex = 0;
-  final List<Widget> _children = [SchedulePage(), TapTest()];
+  final List<Widget> _children = [SchedulePage(), FavoritesPage()];
 
   void onTabTapped(int index) {
     setState(() {
