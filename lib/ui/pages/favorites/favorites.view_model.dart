@@ -16,7 +16,7 @@ class FavoritesViewModel extends ViewModel {
   @override
   Future<void> onBuild() async {
     favoriteEvents.clear();
-    _schedule = await _scheduleRepository.fetchSchedule();
+    _schedule = await _scheduleRepository.getSchedule();
     _schedule.days.forEach((dayElement) {
       dayElement.rooms.forEach((room) {
         room.events.forEach((event) async {

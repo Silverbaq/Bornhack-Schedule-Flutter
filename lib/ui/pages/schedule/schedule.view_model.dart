@@ -10,7 +10,7 @@ class ScheduleViewModel extends ViewModel {
 
   @override
   Future<void> onBuild() async {
-    schedule = await _scheduleRepository.fetchSchedule();
+    schedule = await _scheduleRepository.getSchedule();
     notifyListeners();
   }
 }
