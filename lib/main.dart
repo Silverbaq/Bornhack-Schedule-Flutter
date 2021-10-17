@@ -1,6 +1,8 @@
-import 'package:bornhack/schedule/schedule.page.dart';
 import 'package:flutter/material.dart';
-import 'favorites/favorites.page.dart';
+
+import 'ui/pages/favorites/favorites.page.dart';
+import 'ui/pages/schedule/schedule.page.dart';
+
 
 void main() {
   runApp(MyApp());

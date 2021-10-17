@@ -1,7 +1,6 @@
+import 'package:bornhack/business_logic/model/schedule.model.dart';
+import 'package:bornhack/business_logic/schedule.repository.dart';
 import 'package:pmvvm/pmvvm.dart';
-
-import 'model/schedule.model.dart';
-import 'schedule.repository.dart';
 
 class ScheduleViewModel extends ViewModel {
   final _scheduleRepository = ScheduleRepository();

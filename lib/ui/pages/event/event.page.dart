@@ -1,5 +1,4 @@
-import 'package:bornhack/schedule/model/schedule.model.dart';
-import 'package:bornhack/utils/favorites_storage.dart';
+import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';

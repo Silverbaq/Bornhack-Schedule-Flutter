@@ -1,5 +1,5 @@
-import 'package:bornhack/event/event.page.dart';
-import 'package:bornhack/schedule/model/schedule.model.dart';
+import 'package:bornhack/business_logic/model/event.model.dart';
+import 'package:bornhack/ui/pages/event/event.page.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:flutter/material.dart';
 

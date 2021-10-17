@@ -1,4 +1,4 @@
-import 'package:bornhack/schedule/model/schedule.model.dart';
+import 'package:bornhack/business_logic/model/room.model.dart';
 import 'package:flutter/material.dart';
 
 import 'event.widget.dart';

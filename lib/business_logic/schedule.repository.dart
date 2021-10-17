@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:bornhack/schedule/model/schedule.model.dart';
+import 'package:bornhack/business_logic/model/schedule.model.dart';
 import 'package:dio/dio.dart';
 import 'package:xml/xml.dart';
 
