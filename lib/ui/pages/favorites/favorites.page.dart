@@ -1,3 +1,4 @@
+import 'package:bornhack/app.dart';
 import 'package:bornhack/ui/pages/favorites/favorites.view_model.dart';
 import 'package:bornhack/ui/widgets/event.widget.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MVVM<FavoritesViewModel>(
       view: (context, vmodel) => _ScheduleWidget(),
-      viewModel: FavoritesViewModel(),
+      viewModel: FavoritesViewModel(getIt.get()),
     );
   }
 }

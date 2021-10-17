@@ -3,7 +3,9 @@ import 'package:bornhack/business_logic/schedule.repository.dart';
 import 'package:pmvvm/pmvvm.dart';
 
 class ScheduleViewModel extends ViewModel {
-  final _scheduleRepository = ScheduleRepository();
+  ScheduleViewModel(this._scheduleRepository);
+
+  final ScheduleRepository _scheduleRepository;
   Schedule schedule = Schedule(List.empty());
 
   @override

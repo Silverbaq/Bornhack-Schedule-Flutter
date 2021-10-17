@@ -1,10 +1,13 @@
+import 'package:bornhack/app.dart';
+import 'package:bornhack/business_logic/schedule.repository.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/pages/favorites/favorites.page.dart';
 import 'ui/pages/schedule/schedule.page.dart';
 
-
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(MyApp());
 }
 

@@ -1,7 +1,9 @@
 import 'package:bornhack/business_logic/model/schedule.model.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:xml/xml.dart';
 
+@singleton
 class ScheduleRepository {
   final _dio = Dio();
   final _url = "https://bornhack.dk/bornhack-2021/program/frab.xml";
@@ -13,5 +15,10 @@ class ScheduleRepository {
 
     Schedule schedule = Schedule.parseFromXml(document.firstElementChild!);
     return schedule;
+  }
+
+  @disposeMethod
+  void dispose(){
+    // logic to dispose instance
   }
 }

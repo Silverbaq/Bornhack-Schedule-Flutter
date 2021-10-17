@@ -30,10 +30,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   localstorage: ^4.0.0+1
+  injectable: ^1.5.0
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # add the generator to your dev_dependencies
+  injectable_generator: ^1.5.2
+  # add build runner if not already added
+  build_runner: ^2.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

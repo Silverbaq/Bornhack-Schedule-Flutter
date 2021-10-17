@@ -5,7 +5,9 @@ import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:pmvvm/pmvvm.dart';
 
 class FavoritesViewModel extends ViewModel {
-  final _scheduleRepository = ScheduleRepository();
+  FavoritesViewModel(this._scheduleRepository);
+
+  final ScheduleRepository _scheduleRepository;
   Schedule _schedule = Schedule(List.empty());
   FavoriteStorage _favoriteStorage = FavoriteStorage();
 
