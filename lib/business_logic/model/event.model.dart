@@ -41,6 +41,7 @@ class Event {
       if (element is XmlElement) {
         if (element.name.local == "start") {
           start = element.children.first.text.toString();
+          start = start.substring(0, start.length - 3);
         } else if (element.name.local == "duration") {
           duration = element.children.first.text.toString();
         } else if (element.name.local == "url") {

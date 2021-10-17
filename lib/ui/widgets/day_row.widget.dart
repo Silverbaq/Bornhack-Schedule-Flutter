@@ -15,9 +15,12 @@ class DayRowWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Text(
-          formatter.format(day.date.toLocal()),
-          style: TextStyle(fontSize: 18),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
+          child: Text(
+            formatter.format(day.date.toLocal()),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
         ),
         RoomsWidget(day.rooms),
       ],

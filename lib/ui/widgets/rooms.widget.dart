@@ -12,20 +12,23 @@ class RoomsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: rooms.map((e) {
-          if (e.events.isNotEmpty) {
+        children: rooms.map((room) {
+          if (room.events.isNotEmpty) {
             return Column(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      e.name,
-                      style:
-                      TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        room.name,
+                        style:
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-                EventsWidget(e.events),
+                EventsWidget(room.events),
               ],
             );
           } else {

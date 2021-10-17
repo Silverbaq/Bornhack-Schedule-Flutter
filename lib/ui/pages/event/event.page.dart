@@ -25,15 +25,26 @@ class _EventPage extends StatelessView<EventViewModel> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-                onTap: () {
-                  viewModel.favoriteClicked();
-                },
-                child: Icon(viewModel.isEventAFavorite
-                    ? Icons.favorite_outlined
-                    : Icons.favorite_outline)),
+            Expanded(
+              flex: 9,
+              child: Text(
+                viewModel.event.title,
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                  onTap: () {
+                    viewModel.favoriteClicked();
+                  },
+                  child: Icon(viewModel.isEventAFavorite
+                      ? Icons.favorite_outlined
+                      : Icons.favorite_outline)),
+            ),
           ],
         ),
       ),
@@ -41,74 +52,94 @@ class _EventPage extends StatelessView<EventViewModel> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              viewModel.event.title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              child: Column(
+
+            Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    viewModel.dateTimeToStringFormat(viewModel.event.date),
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Type: ${viewModel.event.type}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        "Speaker: ${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Duration: ${viewModel.event.duration}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        "Recording: ${viewModel.event.recording ? "Yes" : "No"}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      viewModel.dateTimeToStringFormat(viewModel.event.date),
+                      style: TextStyle(fontSize: 22),
+                    ),
                   ),
                 ],
               ),
             ),
-            Container(
-              child: Column(
-                children: [],
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              child: Expanded(
-                flex: 1,
-                child: SingleChildScrollView(
-                  child: Text(
-                    viewModel.event.abstract,
-                    style: TextStyle(fontSize: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Card(
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Type: ${viewModel.event.type}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Expanded(
+                  flex: 5,
+                  child: Card(
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Speaker: ${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Card(
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Duration: ${viewModel.event.duration}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Card(
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Recording: ${viewModel.event.recording ? "Yes" : "No"}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Card(
+                child: Container(
+                  child:  SingleChildScrollView(
+                      child: Text(
+                        viewModel.event.abstract,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
             ),
             SizedBox(
               height: 16,
