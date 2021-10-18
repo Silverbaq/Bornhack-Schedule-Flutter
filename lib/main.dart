@@ -52,11 +52,11 @@ class _Main extends State<Main> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
-            title: new Text('Schedule'),
+            label: 'Schedule',
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.favorite),
-            title: new Text('Favorites'),
+            label: 'Favorites',
           ),
         ],
       ),

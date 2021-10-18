@@ -52,7 +52,6 @@ class _EventPage extends StatelessView<EventViewModel> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-
             Card(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,9 +132,12 @@ class _EventPage extends StatelessView<EventViewModel> {
               child: Card(
                 child: Container(
                   child:  SingleChildScrollView(
-                      child: Text(
-                        viewModel.event.abstract,
-                        style: TextStyle(fontSize: 20),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          viewModel.event.abstract,
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
                     ),
                   ),
