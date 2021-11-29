@@ -1,4 +1,5 @@
 import 'package:bornhack/business_logic/model/event.model.dart';
+import 'package:bornhack/ui/widgets/event/info_card.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
@@ -34,7 +35,6 @@ class _EventPage extends StatelessView<EventViewModel> {
                 style: TextStyle(fontSize: 24),
               ),
             ),
-
             Expanded(
               flex: 1,
               child: GestureDetector(
@@ -71,29 +71,12 @@ class _EventPage extends StatelessView<EventViewModel> {
               children: [
                 Expanded(
                   flex: 5,
-                  child: Card(
-                    child: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Type: ${viewModel.event.type}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ),
+                  child: InfoCardWidget("Type", "${viewModel.event.type}"),
                 ),
                 Expanded(
                   flex: 5,
-                  child: Card(
-                    child: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Speaker: ${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ),
+                  child: InfoCardWidget("Speaker",
+                      "${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}"),
                 ),
               ],
             ),
@@ -102,28 +85,14 @@ class _EventPage extends StatelessView<EventViewModel> {
               children: [
                 Expanded(
                   flex: 5,
-                  child: Card(
-                    child: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Duration: ${viewModel.event.duration}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ),
+                  child:
+                      InfoCardWidget("Duration", "${viewModel.event.duration}"),
                 ),
                 Expanded(
                   flex: 5,
-                  child: Card(
-                    child: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Recording: ${viewModel.event.recording ? "Yes" : "No"}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
+                  child: InfoCardWidget(
+                    "Recording",
+                    "${viewModel.event.recording ? "Yes" : "No"}",
                   ),
                 ),
               ],
@@ -131,17 +100,28 @@ class _EventPage extends StatelessView<EventViewModel> {
             Expanded(
               child: Card(
                 child: Container(
-                  child:  SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          viewModel.event.abstract,
-                          style: TextStyle(fontSize: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(flex: 5, child: Text("Abstract")),
+                        Expanded(
+                          flex: 95,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              viewModel.event.abstract,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
+              ),
             ),
             SizedBox(
               height: 16,

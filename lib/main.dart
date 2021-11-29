@@ -1,5 +1,4 @@
 import 'package:bornhack/app.dart';
-import 'package:bornhack/business_logic/schedule.repository.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/pages/favorites/favorites.page.dart';
@@ -20,6 +19,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         scaffoldBackgroundColor: Colors.blueGrey,
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          headline2: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          bodyText1: TextStyle(fontSize: 14.0),
+          bodyText2: TextStyle(fontSize: 12.0),
+        ),
       ),
       home: Main(),
     );

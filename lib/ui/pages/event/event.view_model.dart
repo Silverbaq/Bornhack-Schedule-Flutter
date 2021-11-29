@@ -31,7 +31,7 @@ class EventViewModel extends ViewModel {
   }
 
   String dateTimeToStringFormat(DateTime date){
-    String formattedDate = DateFormat('HH:mm - EEEE - MMM dd').format(date);
+    String formattedDate = DateFormat('EEEE dd. MMM @ HH:mm').format(date);
     return formattedDate;
   }
 }

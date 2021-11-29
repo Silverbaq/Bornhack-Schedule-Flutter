@@ -31,7 +31,7 @@ class _DaySelectionState extends State<DaySelectionWidget>
         children: <Widget>[
           TabBar(
               labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
+              unselectedLabelColor: Colors.white,
               controller: _tabController,
               tabs: widget.days
                   .map((e) => Tab(

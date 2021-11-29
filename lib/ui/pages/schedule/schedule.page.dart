@@ -1,6 +1,6 @@
 import 'package:bornhack/app.dart';
 import 'package:bornhack/ui/pages/schedule/schedule.view_model.dart';
-import 'package:bornhack/ui/widgets/day_selection.widget.dart';
+import 'package:bornhack/ui/widgets/schedule/day_selection.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
 

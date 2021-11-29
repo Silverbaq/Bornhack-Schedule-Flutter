@@ -41,7 +41,9 @@ class _EventsWidget extends State<EventsWidget> {
                         leading: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(e.start),
+                            Text(e.start,
+                        style: Theme.of(context).textTheme.bodyText1,
+                            ),
                             FutureBuilder(
                                 future: _favoriteStorage.isFavorite(e.eventId),
                                 builder: (BuildContext context,
