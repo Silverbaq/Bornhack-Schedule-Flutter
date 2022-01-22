@@ -17,10 +17,15 @@ class FavoritesPage extends StatelessWidget {
 class _ScheduleWidget extends StatelessView<FavoritesViewModel> {
   @override
   Widget render(context, vmodel) {
-    return SingleChildScrollView(
-      child: Expanded(
-        child: Column(
-          children: [EventsWidget(vmodel.favoriteEvents)],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Favorites'),
+      ),
+      body: SingleChildScrollView(
+        child: Expanded(
+          child: Column(
+            children: [EventsWidget(vmodel.favoriteEvents)],
+          ),
         ),
       ),
     );

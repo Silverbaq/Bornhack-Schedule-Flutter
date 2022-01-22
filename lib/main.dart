@@ -49,7 +49,7 @@ class _Main extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Bornhack')),
+      //appBar: AppBar(title: Text('Bornhack')),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,

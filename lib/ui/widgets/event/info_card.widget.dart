@@ -15,7 +15,8 @@ class InfoCardWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           children: [
-            Padding(
+            AnimatedPadding(
+              duration: Duration(seconds: 1),
               padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 2.0),
               child: Row(
                 children: [Text(_header, style: TextStyle(fontSize: 10), ), ],

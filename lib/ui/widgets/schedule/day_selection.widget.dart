@@ -12,49 +12,25 @@ class DaySelectionWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _DaySelectionState();
 }
 
-class _DaySelectionState extends State<DaySelectionWidget>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+class _DaySelectionState extends State<DaySelectionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _tabController = TabController(
-      length: widget.days.length, //widget.days.length,
-      vsync: this,
-    );
-
-    return Column(children: [
-      Expanded(
-          child: SingleChildScrollView(
-              child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          TabBar(
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.white,
-              controller: _tabController,
-              tabs: widget.days
-                  .map((e) => Tab(
-                        text: e.date.day.toString(),
-                      ))
-                  .toList()),
-          SizedBox(
-            height: 2000,
-            child: TabBarView(
-              controller: _tabController,
-              children: widget.days.map((day) {
-                return DayRowWidget(day);
-              }).toList(),
-            ),
+    return DefaultTabController(
+      length: widget.days.length,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: widget.days.map((e) => Tab(text: e.date.day.toString(),)).toList(),
           ),
-        ],
-      )))
-    ]);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+          title: const Text('Bornhack'),
+        ),
+        body: TabBarView(
+          children: widget.days.map((day) {
+            return DayRowWidget(day);
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
