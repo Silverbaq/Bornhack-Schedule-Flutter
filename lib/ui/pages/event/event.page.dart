@@ -1,6 +1,5 @@
 import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:bornhack/ui/widgets/event/info_card.widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
 
@@ -53,6 +52,7 @@ class _EventPage extends StatelessView<EventViewModel> {
         child: Column(
           children: [
             Card(
+              elevation: 5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -86,7 +86,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                 Expanded(
                   flex: 5,
                   child:
-                      InfoCardWidget("Duration", "${viewModel.event.duration}"),
+                      InfoCardWidget("Duration", formatDuration(viewModel.event.duration)),
                 ),
                 Expanded(
                   flex: 5,
@@ -99,6 +99,7 @@ class _EventPage extends StatelessView<EventViewModel> {
             ),
             Expanded(
               child: Card(
+                elevation: 5,
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -131,4 +132,26 @@ class _EventPage extends StatelessView<EventViewModel> {
       ),
     );
   }
+}
+
+String formatDuration(String duration) {
+  var split = duration.split(":");
+  int hours = int.parse(split[0]);
+  int minutes = int.parse(split[1]);
+
+  String time = "";
+
+  if (hours == 1) {
+    time = "1 hour";
+  } else if (hours > 1) {
+    time = "$hours hours";
+  }
+
+  if (minutes == 1) {
+    time += " 1 minute";
+  } else if (minutes > 1) {
+    time += " $minutes minutes";
+  }
+
+  return time;
 }
