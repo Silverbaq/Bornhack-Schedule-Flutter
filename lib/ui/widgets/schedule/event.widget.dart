@@ -1,6 +1,7 @@
 import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:bornhack/ui/pages/event/event.page.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
+import 'package:bornhack/utils/notifications.dart';
 import 'package:flutter/material.dart';
 
 class EventsWidget extends StatefulWidget {
@@ -50,19 +51,26 @@ class _EventsWidget extends State<EventsWidget> {
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.hasData) {
                                     if (snapshot.data) {
-                                      return GestureDetector(onTap: () {
+                                      return GestureDetector(onTap: () async {
+                                        await removeScheduledNotification(int.parse(e.eventId));
                                         _favoriteStorage.removeFavorite(e.eventId);
                                         setState(() {});
                                       },
                                           child: Icon(Icons.favorite_outlined));
                                     } else {
-                                      return GestureDetector(onTap: () { _favoriteStorage.addFavorite(e.eventId);
+                                      return GestureDetector(onTap: () async {
+                                        NotificationData data = NotificationData(int.parse(e.eventId), e.title, e.abstract, e.date);
+                                        await createScheduledNotification(data);
+                                        _favoriteStorage.addFavorite(e.eventId);
                                       setState(() {});
                                       },
                                           child: Icon(Icons.favorite_outline));
                                     }
                                   } else {
-                                    return GestureDetector(onTap: () { _favoriteStorage.addFavorite(e.eventId);
+                                    return GestureDetector(onTap: () async {
+                                      NotificationData data = NotificationData(int.parse(e.eventId), e.title, e.abstract, e.date);
+                                      await createScheduledNotification(data);
+                                      _favoriteStorage.addFavorite(e.eventId);
                                     setState(() {});
                                     },
                                         child: Icon(Icons.favorite_outline));

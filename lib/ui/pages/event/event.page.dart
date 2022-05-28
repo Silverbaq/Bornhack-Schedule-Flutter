@@ -14,7 +14,7 @@ class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MVVM<EventViewModel>(
-      view: (context, vmodel) => _EventPage(),
+      view: () => _EventPage(),
       viewModel: EventViewModel(event),
     );
   }
@@ -38,8 +38,8 @@ class _EventPage extends StatelessView<EventViewModel> {
             Expanded(
               flex: 1,
               child: GestureDetector(
-                  onTap: () {
-                    viewModel.favoriteClicked();
+                  onTap: () async {
+                    await viewModel.favoriteClicked();
                   },
                   child: Icon(viewModel.isEventAFavorite
                       ? Icons.favorite_outlined

@@ -9,7 +9,7 @@ class SchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MVVM<ScheduleViewModel>(
-      view: (context, vmodel) => _ScheduleWidget(),
+      view: () => _ScheduleWidget(),
       viewModel: ScheduleViewModel(getIt.get()),
     );
   }
