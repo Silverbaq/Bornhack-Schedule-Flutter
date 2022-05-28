@@ -57,17 +57,21 @@ class Main extends StatefulWidget {
 
 class _Main extends State<Main> {
   int _currentIndex = 0;
+  late PageController _pageController;
   final List<Widget> _children = [SchedulePage(), FavoritesPage()];
 
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      _pageController.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.easeOut);
     });
   }
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         showDialog(
@@ -116,6 +120,7 @@ class _Main extends State<Main> {
   void dispose() {
     AwesomeNotifications().actionSink.close();
     AwesomeNotifications().dismissedSink.close();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -123,7 +128,13 @@ class _Main extends State<Main> {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: Text('Bornhack')),
-      body: _children[_currentIndex],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() => _currentIndex = index);
+        },
+        children: _children,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
