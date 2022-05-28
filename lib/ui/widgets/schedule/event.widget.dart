@@ -3,6 +3,7 @@ import 'package:bornhack/ui/pages/event/event.page.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:bornhack/utils/notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventsWidget extends StatefulWidget {
   EventsWidget(this.events);
@@ -41,7 +42,7 @@ class _EventsWidget extends State<EventsWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              e.start,
+                              DateFormat('HH:mm').format(e.date),
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             FutureBuilder(

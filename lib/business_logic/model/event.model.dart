@@ -1,4 +1,7 @@
 import 'package:xml/xml.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
 
 class Event {
   Event(this.eventId, this.guid, this.date, this.title, this.abstract, this.url, this.duration, this.start,
@@ -55,7 +58,12 @@ class Event {
         } else if (element.name.local == "persons") {
           person = element.children.where((i) => !i.text.contains("\n") ).map((data) => data.text).toString();
         } else if (element.name.local == "date") {
-          date = DateTime.parse(element.children.first.text);
+          tz.initializeTimeZones();
+
+          final DateTime orgDateTime = DateTime.parse(element.children.first.text);
+          final pacificTimeZone = tz.getLocation('Europe/Copenhagen');
+
+          date = tz.TZDateTime.from(orgDateTime, pacificTimeZone);
         } else if (element.name.local == "recording") {
           String recordingString = element.toString();
           if (recordingString.contains("true")) {
