@@ -25,7 +25,17 @@ class _ScheduleWidget extends StatelessView<FavoritesViewModel> {
         child: Expanded(
           child: Column(
             children: [
-              EventsWidget(vmodel.favoriteEvents)
+              vmodel.favoriteEvents.isEmpty
+                  ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                          'You have no favorites events',
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                    ),
+                  )
+                  : EventsWidget(vmodel.favoriteEvents)
             ],
           ),
         ),

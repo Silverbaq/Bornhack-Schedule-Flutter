@@ -18,6 +18,10 @@ class SchedulePage extends StatelessWidget {
 class _ScheduleWidget extends StatelessView<ScheduleViewModel> {
   @override
   Widget render(context, vmodel) {
-    return DaySelectionWidget(vmodel.schedule.days);
+    if (vmodel.loading) {
+      return Center(child: CircularProgressIndicator(color: Colors.white,));
+    } else {
+      return DaySelectionWidget(vmodel.schedule.days);
+    }
   }
 }

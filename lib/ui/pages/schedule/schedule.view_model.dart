@@ -7,10 +7,14 @@ class ScheduleViewModel extends ViewModel {
 
   final ScheduleRepository _scheduleRepository;
   Schedule schedule = Schedule(List.empty());
+  bool loading = false;
 
   @override
   Future<void> onBuild() async {
+    loading = true;
+    notifyListeners();
     schedule = await _scheduleRepository.getSchedule();
+    loading = false;
     notifyListeners();
   }
 }
