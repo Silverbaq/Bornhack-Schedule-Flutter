@@ -6,7 +6,7 @@ import 'package:xml/xml.dart';
 @singleton
 class ScheduleApi {
   final _dio = Dio();
-  final _url = "https://bornhack.dk/bornhack-2021/program/frab.xml";
+  final _url = "https://bornhackredirect.vps.w4.dk";
 
   Future<Schedule> fetchSchedule() async {
     final results = await _dio.get(_url);
