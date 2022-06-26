@@ -17,7 +17,7 @@ class RoomsWidget extends StatelessWidget {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(8, 16, 0, 0),
                   child: Row(
                     children: [
                       Text(

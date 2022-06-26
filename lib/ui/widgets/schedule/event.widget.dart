@@ -14,14 +14,35 @@ class EventsWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _EventsWidget(events);
 }
 
-class _EventsWidget extends State<EventsWidget> {
+class _EventsWidget extends State<EventsWidget> with TickerProviderStateMixin {
   _EventsWidget(this.events);
 
   List<Event> events;
   FavoriteStorage _favoriteStorage = FavoriteStorage();
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _animation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_controller);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _controller.forward();
+
     return Container(
       child: Column(
         children: events.map((e) {
@@ -32,34 +53,53 @@ class _EventsWidget extends State<EventsWidget> {
                 onTap: () {
                   Navigator.push(context, createRouter(e));
                 },
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              DateFormat('HH:mm').format(e.date),
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                            FutureBuilder(
-                                future: _favoriteStorage.isFavorite(e.eventId),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    if (snapshot.data) {
-                                      return GestureDetector(
-                                          onTap: () async {
-                                            await removeScheduledNotification(
-                                                int.parse(e.eventId));
-                                            _favoriteStorage
-                                                .removeFavorite(e.eventId);
-                                            setState(() {});
-                                          },
-                                          child: Icon(Icons.favorite_outlined));
+                child: FadeTransition(
+                  opacity: _animation,
+                  child: Card(
+                    elevation: 5,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                DateFormat('HH:mm').format(e.date),
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              FutureBuilder(
+                                  future: _favoriteStorage.isFavorite(e.eventId),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (snapshot.data) {
+                                        return GestureDetector(
+                                            onTap: () async {
+                                              await removeScheduledNotification(
+                                                  int.parse(e.eventId));
+                                              _favoriteStorage
+                                                  .removeFavorite(e.eventId);
+                                              setState(() {});
+                                            },
+                                            child: Icon(Icons.favorite_outlined));
+                                      } else {
+                                        return GestureDetector(
+                                            onTap: () async {
+                                              NotificationData data =
+                                                  NotificationData(
+                                                      int.parse(e.eventId),
+                                                      e.title,
+                                                      e.abstract,
+                                                      e.date);
+                                              await createScheduledNotification(
+                                                  data);
+                                              _favoriteStorage
+                                                  .addFavorite(e.eventId);
+                                              setState(() {});
+                                            },
+                                            child: Icon(Icons.favorite_outline));
+                                      }
                                     } else {
                                       return GestureDetector(
                                           onTap: () async {
@@ -77,30 +117,14 @@ class _EventsWidget extends State<EventsWidget> {
                                           },
                                           child: Icon(Icons.favorite_outline));
                                     }
-                                  } else {
-                                    return GestureDetector(
-                                        onTap: () async {
-                                          NotificationData data =
-                                              NotificationData(
-                                                  int.parse(e.eventId),
-                                                  e.title,
-                                                  e.abstract,
-                                                  e.date);
-                                          await createScheduledNotification(
-                                              data);
-                                          _favoriteStorage
-                                              .addFavorite(e.eventId);
-                                          setState(() {});
-                                        },
-                                        child: Icon(Icons.favorite_outline));
-                                  }
-                                }),
-                          ],
+                                  }),
+                            ],
+                          ),
+                          title: Text(e.title),
+                          subtitle: Text(e.person),
                         ),
-                        title: Text(e.title),
-                        subtitle: Text(e.person),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -122,4 +146,16 @@ PageRouteBuilder createRouter(Event event) {
       );
     },
   );
+}
+
+
+class EventCard extends AnimatedWidget {
+  EventCard({required Listenable listenable}) : super(listenable: listenable);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+
 }
