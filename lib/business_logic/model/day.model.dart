@@ -1,14 +1,17 @@
 import 'package:bornhack/business_logic/model/room.model.dart';
 import 'package:xml/xml.dart';
 
+import 'event.model.dart';
+
 class Day {
-  Day(this.index, this.date, this.start, this.end, this.rooms);
+  Day(this.index, this.date, this.start, this.end, this.rooms, this.events);
 
   int index;
   DateTime date;
   DateTime start;
   DateTime end;
   List<Room> rooms;
+  List<Event> events;
 
   static Day parseFromXml(XmlElement dayXml) {
     var tmpIndex;
@@ -35,6 +38,9 @@ class Day {
       }
     });
 
-    return Day(tmpIndex, tmpDate, start, end, rooms);
+    var events = rooms.expand((e) => e.events).toList();
+    events.sort((a, b) => a.date.compareTo(b.date));
+
+    return Day(tmpIndex, tmpDate, start, end, rooms, events);
   }
 }

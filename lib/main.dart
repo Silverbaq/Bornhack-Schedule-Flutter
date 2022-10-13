@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'BornHack App',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: Main(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -79,7 +81,7 @@ class _Main extends State<Main> {
             builder: (context) => AlertDialog(
                     title: Text('Allow Notifications'),
                     content:
-                        Text('Out app would like to send you notifications'),
+                        Text('We would like to send you notifications 15 minutes before you favorite events starts.'),
                     actions: [
                       TextButton(
                           onPressed: () {},

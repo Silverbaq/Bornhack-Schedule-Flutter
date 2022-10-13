@@ -2,12 +2,14 @@ import 'package:bornhack/business_logic/model/day.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'event.widget.dart';
 import 'rooms.widget.dart';
 
 class DayRowWidget extends StatelessWidget {
-  DayRowWidget(this.day);
+  DayRowWidget(this.day, this.displayAsList);
 
   final Day day;
+  final bool displayAsList;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,11 @@ class DayRowWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.headline1,
             ),
           ),
-          RoomsWidget(day.rooms),
+          if (!displayAsList)
+            RoomsWidget(day.rooms),
+          if (displayAsList)
+            EventsWidget(day.events),
+
         ],
       ),
     );
