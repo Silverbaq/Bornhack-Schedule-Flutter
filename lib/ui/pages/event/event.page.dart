@@ -1,4 +1,4 @@
-import 'package:bornhack/business_logic/model/event.model.dart';
+import 'package:bornhack/business_logic/schedule/model/event.model.dart';
 import 'package:bornhack/ui/widgets/event/info_card.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';

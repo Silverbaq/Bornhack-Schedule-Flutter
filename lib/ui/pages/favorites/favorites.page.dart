@@ -1,5 +1,5 @@
 import 'package:bornhack/app.dart';
-import 'package:bornhack/business_logic/model/event.model.dart';
+import 'package:bornhack/business_logic/schedule/model/event.model.dart';
 import 'package:bornhack/ui/pages/favorites/favorites.view_model.dart';
 import 'package:bornhack/ui/widgets/schedule/event.widget.dart';
 import 'package:flutter/material.dart';

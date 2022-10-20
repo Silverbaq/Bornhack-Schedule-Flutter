@@ -1,4 +1,4 @@
-import 'package:bornhack/business_logic/model/day.model.dart';
+import 'package:bornhack/business_logic/schedule/model/day.model.dart';
 import 'package:bornhack/ui/widgets/schedule/DaySelectionViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';

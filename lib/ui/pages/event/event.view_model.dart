@@ -1,4 +1,4 @@
-import 'package:bornhack/business_logic/model/event.model.dart';
+import 'package:bornhack/business_logic/schedule/model/event.model.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:bornhack/utils/notifications.dart';
 import 'package:intl/intl.dart';

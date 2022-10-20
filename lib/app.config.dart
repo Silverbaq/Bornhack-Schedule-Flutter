@@ -7,8 +7,8 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'business_logic/schedule.api.dart' as _i3;
-import 'business_logic/schedule.repository.dart'
+import 'business_logic/schedule/schedule.api.dart' as _i3;
+import 'business_logic/schedule/schedule.repository.dart'
     as _i4; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars

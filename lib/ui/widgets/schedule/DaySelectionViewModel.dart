@@ -1,4 +1,4 @@
-import 'package:bornhack/business_logic/model/day.model.dart';
+import 'package:bornhack/business_logic/schedule/model/day.model.dart';
 import 'package:bornhack/utils/settings_storage.dart';
 import 'package:pmvvm/view_model.dart';
 
