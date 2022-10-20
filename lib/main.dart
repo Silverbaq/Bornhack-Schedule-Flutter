@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bornhack/app.dart';
+import 'package:bornhack/ui/pages/media_archive/media_archive.page.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/pages/favorites/favorites.page.dart';
@@ -60,7 +61,7 @@ class Main extends StatefulWidget {
 class _Main extends State<Main> {
   int _currentIndex = 0;
   late PageController _pageController;
-  final List<Widget> _children = [SchedulePage(), FavoritesPage()];
+  final List<Widget> _children = [SchedulePage(), FavoritesPage(), MediaArchivePage()];
 
   void onTabTapped(int index) {
     setState(() {
@@ -148,6 +149,10 @@ class _Main extends State<Main> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.favorite),
             label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.perm_media),
+            label: 'Media Archive',
           ),
         ],
       ),
