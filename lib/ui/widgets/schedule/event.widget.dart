@@ -66,7 +66,7 @@ class _EventsWidget extends State<EventsWidget> with TickerProviderStateMixin {
                             children: [
                               Text(
                                 DateFormat('HH:mm').format(e.date),
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               FutureBuilder(
                                   future: _favoriteStorage.isFavorite(e.eventId),

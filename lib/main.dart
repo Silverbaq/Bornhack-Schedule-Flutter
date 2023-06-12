@@ -36,15 +36,15 @@ class MyApp extends StatelessWidget {
 
       title: 'BornHack App',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.blueGrey,
         textTheme: const TextTheme(
-          headline1: TextStyle(
+          displayLarge: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          headline2: TextStyle(
+          displayMedium: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          bodyText1: TextStyle(fontSize: 14.0),
-          bodyText2: TextStyle(fontSize: 12.0),
+          bodyLarge: TextStyle(fontSize: 14.0),
+          bodyMedium: TextStyle(fontSize: 12.0),
         ),
       ),
       home: Main(),

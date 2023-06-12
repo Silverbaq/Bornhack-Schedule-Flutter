@@ -26,7 +26,7 @@ class _ScheduleWidget extends StatelessView<FavoritesViewModel> {
           ? Center(
               child: Text(
                 'You have no favorites events',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
               ),
             )
           : ListView(
@@ -44,7 +44,7 @@ class _ScheduleWidget extends StatelessView<FavoritesViewModel> {
               padding: const EdgeInsets.fromLTRB(8, 16, 0, 0),
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
               ))),
           result.add(EventsWidget(events))
         });

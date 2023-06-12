@@ -23,7 +23,7 @@ class RoomsWidget extends StatelessWidget {
                       Text(
                         room.name,
                         style:
-                        Theme.of(context).textTheme.headline1,
+                        Theme.of(context).textTheme.displayLarge,
                       ),
                     ],
                   ),
