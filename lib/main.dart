@@ -22,7 +22,7 @@ Future<void> main() async {
         channelDescription: '',
         channelShowBadge: true,
         importance: NotificationImportance.High,
-      soundSource: 'resource://raw/res_custom_notification'
+        soundSource: 'resource://raw/res_custom_notification'
     ),
   ]);
   runApp(MyApp());
@@ -150,10 +150,12 @@ class _Main extends State<Main> {
             icon: new Icon(Icons.favorite),
             label: 'Favorites',
           ),
+          /*
           BottomNavigationBarItem(
             icon: new Icon(Icons.perm_media),
             label: 'Media Archive',
           ),
+           */
         ],
       ),
     );

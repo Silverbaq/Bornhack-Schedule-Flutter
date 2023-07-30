@@ -7,17 +7,6 @@ int createUniqueId() {
       .remainder(9001);
 }
 
-Future<void> createNotification() async {
-  await AwesomeNotifications().createNotification(
-      content: NotificationContent(
-          id: createUniqueId(),
-          channelKey: 'basic_channel',
-          title: '${Emojis.money_money_bag + Emojis.plant_cactus} + need food!',
-          notificationLayout: NotificationLayout.Default
-      )
-  );
-}
-
 Future<void> removeScheduledNotification(int id) async {
   await AwesomeNotifications().cancel(id);
 }
@@ -25,6 +14,7 @@ Future<void> removeScheduledNotification(int id) async {
 Future<void> createScheduledNotification(
     NotificationData data) async {
   DateTime reminderDateTime = data.starting.subtract(Duration(minutes:15));
+  //DateTime reminderDateTime = DateTime.now().add(Duration(seconds: 5));
 
   await AwesomeNotifications().createNotification(
       content: NotificationContent(

@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:bornhack/business_logic/media_archive/media_archive.api.dart';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import 'package:pmvvm/view_model.dart';
 
 class UploadMediaViewModel extends ViewModel {
   UploadMediaViewModel(this.mediaApi);
 
-  final ImagePicker _picker = ImagePicker();
+  //final ImagePicker _picker = ImagePicker();
   MediaApi mediaApi;
 
   String title = '';
@@ -51,10 +51,10 @@ class UploadMediaViewModel extends ViewModel {
   }
 
   Future<void> selectedImageFromGallery() async {
-    XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage?.path != null) {
-      image = File(pickedImage?.path ?? "");
-    }
+    //XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    //if (pickedImage?.path != null) {
+   //   image = File(pickedImage?.path ?? "");
+   // }
 
     notifyListeners();
   }
