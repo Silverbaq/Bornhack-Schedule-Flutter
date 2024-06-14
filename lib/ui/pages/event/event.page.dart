@@ -92,7 +92,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                   flex: 5,
                   child: InfoCardWidget(
                     "Recording",
-                    "${viewModel.event.recording ? "Yes" : "No"}",
+                    "${viewModel.event.recording ? "No" : "Yes"}",
                   ),
                 ),
               ],

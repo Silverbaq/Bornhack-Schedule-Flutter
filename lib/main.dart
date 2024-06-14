@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bornhack/app.dart';
 import 'package:flutter/material.dart';
 
+import 'business_logic/controllers/notification_controller.dart';
 import 'ui/pages/favorites/favorites.page.dart';
 import 'ui/pages/schedule/schedule.page.dart';
 
@@ -12,18 +13,7 @@ Future<void> main() async {
 
   configureDependencies();
 
-  AwesomeNotifications()
-      .initialize('resource://drawable/res_notification_app_icon', [
-    NotificationChannel(
-        channelKey: 'basic_channel',
-        channelName: 'Basic Notifications',
-        defaultColor: Colors.teal,
-        channelDescription: '',
-        channelShowBadge: true,
-        importance: NotificationImportance.High,
-      soundSource: 'resource://raw/res_custom_notification'
-    ),
-  ]);
+  await NotificationController.initializeLocalNotifications();
   runApp(MyApp());
 }
 
@@ -38,12 +28,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         scaffoldBackgroundColor: Colors.blueGrey,
         textTheme: const TextTheme(
-          headline1: TextStyle(
+          headlineLarge: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          headline2: TextStyle(
+          headlineMedium: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          bodyText1: TextStyle(fontSize: 14.0),
-          bodyText2: TextStyle(fontSize: 12.0),
+          bodyLarge: TextStyle(fontSize: 14.0),
+          bodyMedium: TextStyle(fontSize: 12.0),
         ),
       ),
       home: Main(),
@@ -103,6 +93,7 @@ class _Main extends State<Main> {
       }
     });
 
+/*
     AwesomeNotifications().actionStream.listen((notification) {
       if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
         AwesomeNotifications().getGlobalBadgeCounter().then(
@@ -116,12 +107,13 @@ class _Main extends State<Main> {
                 (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
       }
     });
+*/
   }
 
   @override
   void dispose() {
-    AwesomeNotifications().actionSink.close();
-    AwesomeNotifications().dismissedSink.close();
+    //AwesomeNotifications().actionSink.close();
+    //AwesomeNotifications().dismissedSink.close();
     _pageController.dispose();
     super.dispose();
   }

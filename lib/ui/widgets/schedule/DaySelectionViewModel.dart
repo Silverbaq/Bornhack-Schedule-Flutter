@@ -8,7 +8,7 @@ class DaySelectionViewModel extends ViewModel {
   }
 
   SettingsStorage _settingsStorage = SettingsStorage();
-  bool displayAsList = false;
+  bool displayAsList = true;
 
   final List<Day> days;
 

@@ -22,7 +22,7 @@ class DayRowWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
             child: Text(
               formatter.format(day.date.toLocal()),
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),
           if (!displayAsList)
