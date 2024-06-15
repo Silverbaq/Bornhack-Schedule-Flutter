@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bornhack/business_logic/model/schedule.model.dart';
 import 'package:bornhack/business_logic/schedule.repository.dart';
 import 'package:pmvvm/pmvvm.dart';
@@ -16,5 +17,12 @@ class ScheduleViewModel extends ViewModel {
     schedule = await _scheduleRepository.getSchedule();
     loading = false;
     notifyListeners();
+  }
+
+  @override
+  void onResume() {
+    AwesomeNotifications().setGlobalBadgeCounter(0);
+
+    super.onResume();
   }
 }

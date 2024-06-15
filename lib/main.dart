@@ -92,22 +92,6 @@ class _Main extends State<Main> {
                     ]));
       }
     });
-
-/*
-    AwesomeNotifications().actionStream.listen((notification) {
-      if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
-        AwesomeNotifications().getGlobalBadgeCounter().then(
-            (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
-      }
-    });
-
-    AwesomeNotifications().dismissedStream.listen((notification) {
-      if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
-        AwesomeNotifications().getGlobalBadgeCounter().then(
-                (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
-      }
-    });
-*/
   }
 
   @override
