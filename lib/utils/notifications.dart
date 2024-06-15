@@ -26,8 +26,7 @@ Future<void> removeScheduledNotification(int id) async {
 
 Future<void> createScheduledNotification(
     NotificationData data) async {
-  //DateTime reminderDateTime = data.starting.subtract(Duration(minutes:15));
-  DateTime now = DateTime.now().add(Duration(seconds: 2));
+  DateTime reminderDateTime = data.starting.subtract(Duration(minutes:15));
 
   await AwesomeNotifications().createNotification(
       content: NotificationContent(
@@ -38,12 +37,12 @@ Future<void> createScheduledNotification(
           notificationLayout: NotificationLayout.Default
       ),
     schedule: NotificationCalendar(
-      day: now.day,
-      month: now.month,
-      year: now.year,
-      hour: now.hour,
-      minute: now.minute,
-      second: now.second,
+      day: reminderDateTime.day,
+      month: reminderDateTime.month,
+      year: reminderDateTime.year,
+      hour: reminderDateTime.hour,
+      minute: reminderDateTime.minute,
+      second: reminderDateTime.second,
       millisecond: 0,
       repeats: false,
     )
