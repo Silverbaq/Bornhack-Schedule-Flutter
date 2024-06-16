@@ -29,6 +29,7 @@ class FavoritesViewModel extends ViewModel {
             } else {
               groupedFavoriteEvents[weekday] = [event];
             }
+            groupedFavoriteEvents[weekday]?.sort((a, b) => a.date.compareTo(b.date));
           }
         });
       });
