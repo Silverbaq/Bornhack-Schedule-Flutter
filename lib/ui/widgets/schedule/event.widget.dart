@@ -57,71 +57,99 @@ class _EventsWidget extends State<EventsWidget> with TickerProviderStateMixin {
                   opacity: _animation,
                   child: Card(
                     elevation: 5,
+                    color: Color(0xFF0A1A12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(color: Colors.greenAccent.withOpacity(0.3), width: 1),
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
-                          leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                DateFormat('HH:mm').format(e.date),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              FutureBuilder(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                          leading: SizedBox(
+                            width: 65,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black26,
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(color: Colors.greenAccent.withOpacity(0.3)),
+                                  ),
+                                  child: Text(
+                                    DateFormat('HH:mm').format(e.date),
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 14,
+                                      color: Colors.greenAccent,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                FutureBuilder(
                                   future: _favoriteStorage.isFavorite(e.eventId),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot snapshot) {
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
                                     if (snapshot.hasData) {
                                       if (snapshot.data) {
                                         return GestureDetector(
-                                            onTap: () async {
-                                              await removeScheduledNotification(
-                                                  int.parse(e.eventId));
-                                              _favoriteStorage
-                                                  .removeFavorite(e.eventId);
-                                              setState(() {});
-                                            },
-                                            child: Icon(Icons.favorite_outlined));
+                                          onTap: () async {
+                                            await removeScheduledNotification(int.parse(e.eventId));
+                                            _favoriteStorage.removeFavorite(e.eventId);
+                                            setState(() {});
+                                          },
+                                          child: Icon(Icons.favorite_outlined, color: Colors.greenAccent, size: 20)
+                                        );
                                       } else {
                                         return GestureDetector(
-                                            onTap: () async {
-                                              NotificationData data =
-                                                  NotificationData(
-                                                      int.parse(e.eventId),
-                                                      e.title,
-                                                      e.abstract,
-                                                      e.date);
-                                              await createScheduledNotification(
-                                                  data);
-                                              _favoriteStorage
-                                                  .addFavorite(e.eventId);
-                                              setState(() {});
-                                            },
-                                            child: Icon(Icons.favorite_outline));
+                                          onTap: () async {
+                                            NotificationData data = NotificationData(
+                                              int.parse(e.eventId), e.title, e.abstract, e.date);
+                                            await createScheduledNotification(data);
+                                            _favoriteStorage.addFavorite(e.eventId);
+                                            setState(() {});
+                                          },
+                                          child: Icon(Icons.favorite_outline, color: Colors.greenAccent, size: 20)
+                                        );
                                       }
                                     } else {
                                       return GestureDetector(
-                                          onTap: () async {
-                                            NotificationData data =
-                                                NotificationData(
-                                                    int.parse(e.eventId),
-                                                    e.title,
-                                                    e.abstract,
-                                                    e.date);
-                                            await createScheduledNotification(
-                                                data);
-                                            _favoriteStorage
-                                                .addFavorite(e.eventId);
-                                            setState(() {});
-                                          },
-                                          child: Icon(Icons.favorite_outline));
+                                        onTap: () async {
+                                          NotificationData data = NotificationData(
+                                            int.parse(e.eventId), e.title, e.abstract, e.date);
+                                          await createScheduledNotification(data);
+                                          _favoriteStorage.addFavorite(e.eventId);
+                                          setState(() {});
+                                        },
+                                        child: Icon(Icons.favorite_outline, color: Colors.greenAccent, size: 20)
+                                      );
                                     }
-                                  }),
-                            ],
+                                  }
+                                ),
+                              ],
+                            ),
                           ),
-                          title: Text(e.title),
-                          subtitle: Text(e.person),
+                          title: Text(
+                            e.title,
+                            style: TextStyle(
+                              fontFamily: 'VT323',
+                              fontSize: 18,
+                              color: Colors.greenAccent,
+                            ),
+                          ),
+                          subtitle: Text(
+                            e.person,
+                            style: TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 12,
+                              color: Colors.greenAccent.withOpacity(0.7),
+                            ),
+                          ),
+                          trailing: Icon(Icons.chevron_right, color: Colors.greenAccent),
                         ),
                       ],
                     ),
@@ -147,7 +175,6 @@ PageRouteBuilder createRouter(Event event) {
     },
   );
 }
-
 
 class EventCard extends AnimatedWidget {
   EventCard({required Listenable listenable}) : super(listenable: listenable);

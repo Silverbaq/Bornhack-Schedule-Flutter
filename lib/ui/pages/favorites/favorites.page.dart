@@ -36,16 +36,34 @@ class _ScheduleWidget extends StatelessView<FavoritesViewModel> {
     );
   }
 
-  List<Widget> _listViewElements(
-      BuildContext context, Map<String, List<Event>> values) {
+  List<Widget> _listViewElements(BuildContext context, Map<String, List<Event>> values) {
     List<Widget> result = [];
     values.forEach((title, events) => {
-          result.add(Padding(
-              padding: const EdgeInsets.fromLTRB(8, 16, 0, 0),
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ))),
+          result.add(
+            Container(
+              margin: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Color(0xFF0A1A12),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.greenAccent.withOpacity(0.5)),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.code, color: Colors.greenAccent),
+                  SizedBox(width: 12),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'VT323',
+                      fontSize: 24,
+                      color: Colors.greenAccent,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           result.add(EventsWidget(events))
         });
     return result;

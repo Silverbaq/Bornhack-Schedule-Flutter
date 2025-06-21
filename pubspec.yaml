@@ -93,3 +93,20 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: VT323
+      fonts:
+        - asset: fonts/VT323-Regular.ttf
+    - family: Courier
+      fonts:
+        - asset: fonts/CourierPrime-Regular.ttf
+        - asset: fonts/CourierPrime-Bold.ttf
+          weight: 700
+        - asset: fonts/CourierPrime-Italic.ttf
+          style: italic
+        - asset: fonts/CourierPrime-BoldItalic.ttf
+          weight: 700
+          style: italic
+
+  assets:
+    - assets/grid_background.png
