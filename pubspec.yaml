@@ -109,4 +109,4 @@ flutter:
           style: italic
 
   assets:
-    - assets/grid_background.png
+    - assets/
