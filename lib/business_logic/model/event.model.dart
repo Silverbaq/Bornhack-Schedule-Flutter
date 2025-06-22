@@ -69,9 +69,9 @@ class Event {
         } else if (element.name.local == "recording") {
           String recordingString = element.toString();
           if (recordingString.contains("true")) {
-            recording = true;
-          } else {
             recording = false;
+          } else {
+            recording = true;
           }
         }
       }
