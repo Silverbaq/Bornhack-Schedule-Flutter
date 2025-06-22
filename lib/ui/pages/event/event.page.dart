@@ -77,120 +77,177 @@ class _EventPage extends StatelessView<EventViewModel> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              // Date/Time Card with terminal-like header
-              Card(
-                elevation: 8,
-                color: Color(0xFF0A1A12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent.withOpacity(0.2),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                // Date/Time Card with terminal-like header
+                Card(
+                  elevation: 8,
+                  color: Color(0xFF0A1A12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.greenAccent.withOpacity(0.2),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                            SizedBox(width: 8),
+                            Text(
+                              "event_datetime.sh",
+                              style: TextStyle(
+                                fontFamily: 'VT323',
+                                color: Colors.greenAccent,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.circle, color: Colors.greenAccent, size: 12),
-                          SizedBox(width: 8),
-                          Text(
-                            "EVENT_DATETIME.exe",
-                            style: TextStyle(
-                              fontFamily: 'VT323',
-                              color: Colors.greenAccent,
-                              fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.calendar_today, color: Colors.greenAccent),
+                            SizedBox(width: 12),
+                            Text(
+                              viewModel.dateTimeToStringFormat(viewModel.event.date),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: 'VT323',
+                                color: Colors.greenAccent,
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                
+                // Room Card
+                Card(
+                  elevation: 8,
+                  color: Color(0xFF0A1A12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.greenAccent.withOpacity(0.2),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8),
                           ),
-                        ],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                            SizedBox(width: 8),
+                            Text(
+                              "location.sh",
+                              style: TextStyle(
+                                fontFamily: 'VT323',
+                                color: Colors.greenAccent,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.meeting_room, color: Colors.greenAccent),
+                            SizedBox(width: 12),
+                            Text(
+                              viewModel.event.room,
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: 'VT323',
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                
+                // Info Cards Row 1
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: _buildInfoCard(
+                        "Type",
+                        "${viewModel.event.type}",
+                        Icons.category,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today, color: Colors.greenAccent),
-                          SizedBox(width: 12),
-                          Text(
-                            viewModel.dateTimeToStringFormat(viewModel.event.date),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontFamily: 'VT323',
-                              color: Colors.greenAccent,
-                            ),
-                          ),
-                        ],
+                    SizedBox(width: 8),
+                    Expanded(
+                      flex: 5,
+                      child: _buildInfoCard(
+                        "Speaker",
+                        "${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
+                        Icons.person,
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 12),
-              
-              // Info Cards Row 1
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: _buildInfoCard(
-                      "Type",
-                      "${viewModel.event.type}",
-                      Icons.category,
+                SizedBox(height: 12),
+                
+                // Info Cards Row 2
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: _buildInfoCard(
+                        "Duration",
+                        formatDuration(viewModel.event.duration),
+                        Icons.timer,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    flex: 5,
-                    child: _buildInfoCard(
-                      "Speaker",
-                      "${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
-                      Icons.person,
+                    SizedBox(width: 8),
+                    Expanded(
+                      flex: 5,
+                      child: _buildInfoCard(
+                        "Recording",
+                        "${viewModel.event.recording ? "Yes" : "No"}",
+                        Icons.videocam,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              
-              // Info Cards Row 2
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: _buildInfoCard(
-                      "Duration",
-                      formatDuration(viewModel.event.duration),
-                      Icons.timer,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    flex: 5,
-                    child: _buildInfoCard(
-                      "Recording",
-                      "${viewModel.event.recording ? "No" : "Yes"}",
-                      Icons.videocam,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              
-              // Abstract Card
-              Expanded(
-                child: Card(
+                  ],
+                ),
+                SizedBox(height: 12),
+                
+                // Abstract Card
+                Card(
                   elevation: 8,
                   color: Color(0xFF0A1A12),
                   shape: RoundedRectangleBorder(
@@ -226,53 +283,47 @@ class _EventPage extends StatelessView<EventViewModel> {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Abstract:",
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Abstract:",
+                              style: TextStyle(
+                                fontFamily: 'VT323',
+                                color: Colors.greenAccent,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              padding: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.greenAccent.withOpacity(0.3), width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                                color: Colors.black.withOpacity(0.3),
+                              ),
+                              child: Text(
+                                viewModel.event.abstract,
                                 style: TextStyle(
-                                  fontFamily: 'VT323',
+                                  fontSize: 16,
+                                  fontFamily: 'Courier',
                                   color: Colors.greenAccent,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  height: 1.5,
                                 ),
                               ),
-                              SizedBox(height: 8),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: Container(
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.greenAccent.withOpacity(0.3), width: 1),
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Colors.black.withOpacity(0.3),
-                                    ),
-                                    child: Text(
-                                      viewModel.event.abstract,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'Courier',
-                                        color: Colors.greenAccent,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 16),
-            ],
+                SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
@@ -315,6 +366,8 @@ class _EventPage extends StatelessView<EventViewModel> {
                 color: Colors.greenAccent,
               ),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ],
         ),

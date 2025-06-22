@@ -12,7 +12,7 @@ class Room {
     var events = <Event>[];
     roomXml.children.forEach((eventXml) {
       if (eventXml is XmlElement) {
-        events.add(Event.parseFromXml(eventXml));
+        events.add(Event.parseFromXml(eventXml, room: name));
       }
     });
 

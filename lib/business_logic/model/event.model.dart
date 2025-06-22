@@ -5,7 +5,7 @@ import 'package:timezone/data/latest.dart' as tz;
 
 class Event {
   Event(this.eventId, this.guid, this.date, this.title, this.abstract, this.url, this.duration, this.start,
-      this.type, this.person, this.recording);
+      this.type, this.person, this.recording, this.room);
 
   String eventId;
   String guid;
@@ -18,8 +18,9 @@ class Event {
   String abstract;
   String person;
   bool recording;
+  String room;
 
-  static Event parseFromXml(XmlElement eventXml) {
+  static Event parseFromXml(XmlElement eventXml, {String room = ""}) {
     String eventId = "";
     String guid = "";
     DateTime date = DateTime.now();
@@ -31,6 +32,7 @@ class Event {
     String abstract = "";
     String person = "";
     bool recording = false;
+
 
     eventXml.attributes.forEach((attribute) {
       if (attribute.name.local == "id") {
@@ -75,6 +77,6 @@ class Event {
       }
     }
     );
-    return Event(eventId, guid, date, title, abstract, url, duration, start, type, person, recording);
+    return Event(eventId, guid, date, title, abstract, url, duration, start, type, person, recording, room);
   }
 }
