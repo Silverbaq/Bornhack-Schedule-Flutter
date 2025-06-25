@@ -321,7 +321,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 60),
               ],
             ),
           ),
