@@ -17,15 +17,29 @@ class RoomsWidget extends StatelessWidget {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 16, 0, 0),
-                  child: Row(
-                    children: [
-                      Text(
-                        room.name,
-                        style:
-                        Theme.of(context).textTheme.headlineLarge,
-                      ),
-                    ],
+                  padding: const EdgeInsets.fromLTRB(8, 16, 0, 8),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF0A1A12),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.computer, color: Colors.greenAccent, size: 18),
+                        SizedBox(width: 8),
+                        Text(
+                          room.name,
+                          style: TextStyle(
+                            fontFamily: 'VT323',
+                            fontSize: 22,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 EventsWidget(room.events),

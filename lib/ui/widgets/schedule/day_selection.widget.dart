@@ -23,35 +23,173 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
     return DefaultTabController(
       length: viewModel.days.length,
       child: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
+          backgroundColor: Color(0xFF0A1A12),
+          elevation: 8,
+          shadowColor: Colors.greenAccent.withOpacity(0.3),
           bottom: TabBar(
-            tabs: viewModel.days
-                .map((e) => Tab(
-                      text: e.date.day.toString(),
-                    ))
-                .toList(),
+            indicatorColor: Colors.greenAccent,
+            indicatorWeight: 3,
+            labelColor: Colors.greenAccent,
+            unselectedLabelColor: Colors.greenAccent.withOpacity(0.5),
+            labelStyle: TextStyle(
+              fontFamily: 'VT323',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontFamily: 'VT323',
+              fontSize: 18,
+            ),
+            tabs: viewModel.days.map((e) {
+              // Format the date to show day number and abbreviated month
+              final dayStr = e.date.day.toString();
+              final monthStr = _getMonthAbbreviation(e.date.month);
+              
+              return Tab(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(dayStr),
+                    Text(
+                      monthStr,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
           ),
-          title: const Text('Bornhack'),
+          title: Row(
+            children: [
+              Icon(Icons.terminal, color: Colors.greenAccent),
+              SizedBox(width: 8),
+              Text(
+                'Bornhack',
+                style: TextStyle(
+                  fontFamily: 'VT323',
+                  color: Colors.greenAccent,
+                  fontSize: 24,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
+          ),
           actions: <Widget>[
             Padding(
-                padding: EdgeInsets.only(right: 20.0),
+              padding: EdgeInsets.only(right: 20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.greenAccent.withOpacity(0.5),
+                    width: 1.5,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.greenAccent.withOpacity(0.2),
+                      blurRadius: 4,
+                      spreadRadius: 0,
+                    )
+                  ],
+                  color: Colors.black.withOpacity(0.4),
+                ),
                 child: GestureDetector(
                   onTap: () {
+                    // Create a brief "terminal command" effect
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    scaffoldMessenger.clearSnackBars();
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(Icons.terminal, color: Colors.greenAccent, size: 16),
+                            SizedBox(width: 8),
+                            Text(
+                              viewModel.displayAsList 
+                                ? '> switching to venue view...'
+                                : '> switching to list view...',
+                              style: TextStyle(
+                                fontFamily: 'Courier',
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ],
+                        ),
+                        backgroundColor: Color(0xFF0A1A12),
+                        duration: Duration(seconds: 1),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          side: BorderSide(color: Colors.greenAccent.withOpacity(0.3)),
+                        ),
+                      ),
+                    );
+                    
                     viewModel.changeLayoutClicked();
                   },
-                  child: Icon(
-                    viewModel.displayAsList ? Icons.meeting_room_outlined : Icons.list,
-                    size: 26.0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          viewModel.displayAsList ? Icons.meeting_room_outlined : Icons.list,
+                          color: Colors.greenAccent,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 6),
+                        Text(
+                          viewModel.displayAsList ? 'VENUE' : 'LIST',
+                          style: TextStyle(
+                            fontFamily: 'VT323',
+                            color: Colors.greenAccent,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                )),
+                ),
+              ),
+            ),
           ],
         ),
-        body: TabBarView(
-          children: viewModel.days.map((day) {
-            return DayRowWidget(day, viewModel.displayAsList);
-          }).toList(),
+        body: Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            image: DecorationImage(
+              image: AssetImage('assets/grid_background.png'),
+              opacity: 0.1,
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: TabBarView(
+            children: viewModel.days.map((day) {
+              return DayRowWidget(day, viewModel.displayAsList);
+            }).toList(),
+          ),
         ),
       ),
     );
+  }
+  
+  String _getMonthAbbreviation(int month) {
+    switch (month) {
+      case 1: return 'JAN';
+      case 2: return 'FEB';
+      case 3: return 'MAR';
+      case 4: return 'APR';
+      case 5: return 'MAY';
+      case 6: return 'JUN';
+      case 7: return 'JUL';
+      case 8: return 'AUG';
+      case 9: return 'SEP';
+      case 10: return 'OCT';
+      case 11: return 'NOV';
+      case 12: return 'DEC';
+      default: return '';
+    }
   }
 }
