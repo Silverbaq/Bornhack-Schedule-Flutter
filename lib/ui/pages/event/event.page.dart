@@ -33,14 +33,17 @@ class _EventPage extends StatelessView<EventViewModel> {
           children: [
             Expanded(
               flex: 9,
-              child: Text(
-                viewModel.event.title,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'VT323',
-                  color: Colors.greenAccent,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  viewModel.event.title,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'VT323',
+                    color: Colors.greenAccent,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
             Expanded(
