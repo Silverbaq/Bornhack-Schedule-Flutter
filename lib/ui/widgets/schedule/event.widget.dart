@@ -401,34 +401,28 @@ class EventCard extends AnimatedWidget {
 
                   // "Today" indicator
                   if (isToday)
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                          ),
-                          border: Border(
-                            left: BorderSide(color: Colors.greenAccent.withOpacity(0.5)),
-                            bottom: BorderSide(color: Colors.greenAccent.withOpacity(0.5)),
-                          ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent.withOpacity(0.2),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
                         ),
-                        child: Text(
-                          'TODAY',
-                          style: TextStyle(
-                            fontFamily: 'VT323',
-                            fontSize: 12,
-                            color: Colors.greenAccent,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      child: Text(
+                        'TODAY',
+                        style: TextStyle(
+                          fontFamily: 'VT323',
+                          fontSize: 12,
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                 ],
               ),
+
 
             ],
           ),
