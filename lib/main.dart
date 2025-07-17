@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'business_logic/controllers/notification_controller.dart';
 import 'ui/pages/favorites/favorites.page.dart';
 import 'ui/pages/schedule/schedule.page.dart';
+import 'utils/theme_data.dart';
+import 'utils/theme_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,55 +19,52 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDarkMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+  }
+
+  void _loadTheme() async {
+    final isDark = await ThemeStorage.isDarkMode();
+    setState(() {
+      _isDarkMode = isDark;
+    });
+  }
+
+  void toggleTheme() async {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+    await ThemeStorage.setDarkMode(_isDarkMode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BornHack App',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.green,
-        scaffoldBackgroundColor: Colors.black,
-        cardColor: Color(0xFF0A1A12),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF0A1A12),
-          elevation: 0,
-        ),
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(
-            fontSize: 24, 
-            fontWeight: FontWeight.bold, 
-            color: Colors.greenAccent,
-            fontFamily: 'VT323',
-          ),
-          headlineMedium: TextStyle(
-            fontSize: 24, 
-            fontWeight: FontWeight.bold, 
-            color: Colors.greenAccent,
-            fontFamily: 'VT323',
-          ),
-          bodyLarge: TextStyle(
-            fontSize: 14.0, 
-            color: Colors.greenAccent,
-            fontFamily: 'Courier',
-          ),
-          bodyMedium: TextStyle(
-            fontSize: 12.0, 
-            color: Colors.greenAccent,
-            fontFamily: 'Courier',
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.greenAccent,
-        ),
-      ),
-      home: Main(),
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: Main(onThemeToggle: toggleTheme),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class Main extends StatefulWidget {
+  final VoidCallback onThemeToggle;
+  
+  const Main({Key? key, required this.onThemeToggle}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _Main();
 }
@@ -73,7 +72,7 @@ class Main extends StatefulWidget {
 class _Main extends State<Main> {
   int _currentIndex = 0;
   late PageController _pageController;
-  final List<Widget> _children = [SchedulePage(), FavoritesPage()];
+  late List<Widget> _children;
 
   void onTabTapped(int index) {
     setState(() {
@@ -87,108 +86,118 @@ class _Main extends State<Main> {
   void initState() {
     super.initState();
     _pageController = PageController();
+    _children = [
+      SchedulePage(onThemeToggle: widget.onThemeToggle),
+      FavoritesPage(onThemeToggle: widget.onThemeToggle)
+    ];
+    
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Color(0xFF0A1A12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
-            ),
-            title: Row(
-              children: [
-                Icon(Icons.notifications, color: Colors.greenAccent),
-                SizedBox(width: 10),
-                Text(
-                  'SYSTEM REQUEST',
-                  style: TextStyle(
-                    fontFamily: 'VT323',
-                    color: Colors.greenAccent,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.greenAccent.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '> Requesting permission to send notifications 15 minutes before your favorite events start.',
-                    style: TextStyle(
-                      fontFamily: 'Courier',
-                      color: Colors.greenAccent,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Grant access? [Y/N]',
-                  style: TextStyle(
-                    fontFamily: 'VT323',
-                    color: Colors.greenAccent,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.black26,
-                  side: BorderSide(color: Colors.greenAccent.withOpacity(0.3)),
-                ),
-                child: Text(
-                  'DENY [N]',
-                  style: TextStyle(
-                    fontFamily: 'VT323',
-                    color: Colors.grey,
-                    fontSize: 16,
-                  )
-                )
-              ),
-              TextButton(
-                onPressed: () => AwesomeNotifications()
-                  .requestPermissionToSendNotifications()
-                  .then((_) => Navigator.pop(context)),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.greenAccent.withOpacity(0.2),
-                  side: BorderSide(color: Colors.greenAccent),
-                ),
-                child: Text(
-                  'ALLOW [Y]',
-                  style: TextStyle(
-                    fontFamily: 'VT323',
-                    color: Colors.greenAccent,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  )
-                )
-              ),
-            ],
-          )
+          builder: (context) => _buildPermissionDialog(context),
         );
       }
     });
   }
 
+  Widget _buildPermissionDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Theme.of(context).cardColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(
+          color: AppThemes.getTerminalBorder(context), 
+          width: 1
+        ),
+      ),
+      title: Row(
+        children: [
+          Icon(Icons.notifications, color: AppThemes.getAccentColor(context)),
+          SizedBox(width: 10),
+          Text(
+            'SYSTEM REQUEST',
+            style: TextStyle(
+              fontFamily: 'VT323',
+              color: AppThemes.getAccentColor(context),
+              fontSize: 22,
+            ),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppThemes.getTerminalBackground(context),
+              border: Border.all(color: AppThemes.getTerminalBorder(context)),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              '> Requesting permission to send notifications 15 minutes before your favorite events start.',
+              style: TextStyle(
+                fontFamily: 'Courier',
+                color: AppThemes.getAccentColor(context),
+                fontSize: 14,
+              ),
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            'Grant access? [Y/N]',
+            style: TextStyle(
+              fontFamily: 'VT323',
+              color: AppThemes.getAccentColor(context),
+              fontSize: 18,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: AppThemes.getTerminalBackground(context),
+            side: BorderSide(color: AppThemes.getTerminalBorder(context)),
+          ),
+          child: Text(
+            'DENY [N]',
+            style: TextStyle(
+              fontFamily: 'VT323',
+              color: AppThemes.getSecondaryTextColor(context),
+              fontSize: 16,
+            )
+          )
+        ),
+        TextButton(
+          onPressed: () => AwesomeNotifications()
+            .requestPermissionToSendNotifications()
+            .then((_) => Navigator.pop(context)),
+          style: TextButton.styleFrom(
+            backgroundColor: AppThemes.getAccentColor(context).withOpacity(0.2),
+            side: BorderSide(color: AppThemes.getAccentColor(context)),
+          ),
+          child: Text(
+            'ALLOW [Y]',
+            style: TextStyle(
+              fontFamily: 'VT323',
+              color: AppThemes.getAccentColor(context),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            )
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
-    //AwesomeNotifications().actionSink.close();
-    //AwesomeNotifications().dismissedSink.close();
     _pageController.dispose();
     super.dispose();
   }
@@ -196,7 +205,7 @@ class _Main extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -216,15 +225,18 @@ class _Main extends State<Main> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: Colors.greenAccent.withOpacity(0.3), width: 1),
+            top: BorderSide(
+              color: AppThemes.getTerminalBorder(context), 
+              width: 1
+            ),
           ),
-          color: Color(0xFF0A1A12),
+          color: Theme.of(context).cardColor,
         ),
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: Colors.greenAccent,
-          unselectedItemColor: Colors.greenAccent.withOpacity(0.5),
+          selectedItemColor: AppThemes.getAccentColor(context),
+          unselectedItemColor: AppThemes.getAccentColor(context).withOpacity(0.5),
           onTap: onTabTapped,
           currentIndex: _currentIndex,
           items: [

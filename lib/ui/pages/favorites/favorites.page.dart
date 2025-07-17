@@ -2,47 +2,68 @@ import 'package:bornhack/app.dart';
 import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:bornhack/ui/pages/favorites/favorites.view_model.dart';
 import 'package:bornhack/ui/widgets/schedule/event.widget.dart';
+import 'package:bornhack/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
 
 class FavoritesPage extends StatelessWidget {
+  final VoidCallback onThemeToggle;
+
+  FavoritesPage({required this.onThemeToggle});
+
   @override
   Widget build(BuildContext context) {
     return MVVM<FavoritesViewModel>(
-      view: () => _FavoritesWidget(),
+      view: () => _FavoritesWidget(onThemeToggle: onThemeToggle),
       viewModel: FavoritesViewModel(getIt.get()),
     );
   }
 }
 
 class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
+  final VoidCallback onThemeToggle;
+
+  _FavoritesWidget({required this.onThemeToggle});
+
   @override
   Widget render(context, vmodel) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A1A12),
+        backgroundColor: Theme.of(context).cardColor,
         elevation: 8,
-        shadowColor: Colors.greenAccent.withOpacity(0.3),
+        shadowColor: AppThemes.getAccentColor(context).withOpacity(0.3),
         title: Row(
           children: [
-            Icon(Icons.favorite, color: Colors.greenAccent),
+            Icon(Icons.favorite, color: AppThemes.getAccentColor(context)),
             SizedBox(width: 10),
             Text(
               'FAVORITES',
               style: TextStyle(
                 fontFamily: 'VT323',
-                color: Colors.greenAccent,
+                color: AppThemes.getAccentColor(context),
                 fontSize: 24,
                 letterSpacing: 1.2,
               ),
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.dark 
+                  ? Icons.light_mode 
+                  : Icons.dark_mode,
+              color: AppThemes.getAccentColor(context),
+            ),
+            onPressed: onThemeToggle,
+            tooltip: 'Toggle Theme',
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Theme.of(context).scaffoldBackgroundColor,
           image: DecorationImage(
             image: AssetImage('assets/grid_background.png'),
             opacity: 0.1,
@@ -56,16 +77,16 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
                   children: [
                     Icon(
                       Icons.terminal,
-                      color: Colors.greenAccent,
+                      color: AppThemes.getAccentColor(context),
                       size: 60,
                     ),
                     SizedBox(height: 20),
                     Container(
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.greenAccent.withOpacity(0.5)),
+                        border: Border.all(color: AppThemes.getTerminalBorder(context)),
                         borderRadius: BorderRadius.circular(8),
-                        color: Color(0xFF0A1A12),
+                        color: Theme.of(context).cardColor,
                       ),
                       child: Column(
                         children: [
@@ -73,7 +94,7 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
                             'NO FAVORITES FOUND',
                             style: TextStyle(
                               fontFamily: 'VT323',
-                              color: Colors.greenAccent,
+                              color: AppThemes.getAccentColor(context),
                               fontSize: 24,
                             ),
                           ),
@@ -82,7 +103,7 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
                             '> Add events to favorites by clicking the heart icon',
                             style: TextStyle(
                               fontFamily: 'Courier',
-                              color: Colors.greenAccent.withOpacity(0.7),
+                              color: AppThemes.getAccentColor(context).withOpacity(0.7),
                               fontSize: 14,
                             ),
                           ),
@@ -107,12 +128,12 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
               margin: const EdgeInsets.fromLTRB(8, 16, 8, 8),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: Color(0xFF0A1A12),
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.greenAccent.withOpacity(0.5)),
+                border: Border.all(color: AppThemes.getTerminalBorder(context)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.greenAccent.withOpacity(0.2),
+                    color: AppThemes.getAccentColor(context).withOpacity(0.2),
                     blurRadius: 4,
                     spreadRadius: 0,
                   )
@@ -120,30 +141,30 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today, color: Colors.greenAccent),
+                  Icon(Icons.calendar_today, color: AppThemes.getAccentColor(context)),
                   SizedBox(width: 12),
                   Text(
                     title,
                     style: TextStyle(
                       fontFamily: 'VT323',
                       fontSize: 24,
-                      color: Colors.greenAccent,
+                      color: AppThemes.getAccentColor(context),
                     ),
                   ),
                   Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Colors.greenAccent.withOpacity(0.2),
+                      color: AppThemes.getAccentColor(context).withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.greenAccent.withOpacity(0.3)),
+                      border: Border.all(color: AppThemes.getTerminalBorder(context)),
                     ),
                     child: Text(
                       '${events.length}',
                       style: TextStyle(
                         fontFamily: 'VT323',
                         fontSize: 16,
-                        color: Colors.greenAccent,
+                        color: AppThemes.getAccentColor(context),
                       ),
                     ),
                   ),

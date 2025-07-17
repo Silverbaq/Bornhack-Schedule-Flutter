@@ -2,6 +2,7 @@ import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:bornhack/ui/pages/event/event.page.dart';
 import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:bornhack/utils/notifications.dart';
+import 'package:bornhack/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
@@ -143,6 +144,7 @@ class EventCard extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     final e = event;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
@@ -203,11 +205,11 @@ class EventCard extends AnimatedWidget {
               }
 
               if (currentBlink % 2 == 0) {
-                // Show green overlay
+                // Show accent color overlay
                 currentOverlay = Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.greenAccent.withOpacity(0.3),
+                    color: AppThemes.getAccentColor(context).withOpacity(0.3),
                   ),
                 );
               } else {
@@ -225,14 +227,14 @@ class EventCard extends AnimatedWidget {
         },
         child: Card(
           elevation: 8,
-          shadowColor: Colors.greenAccent.withOpacity(0.3),
-          color: Color(0xFF0A1A12),
+          shadowColor: AppThemes.getAccentColor(context).withOpacity(0.3),
+          color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: BorderSide(
               color: isToday
-                  ? Colors.greenAccent.withOpacity(0.6)
-                  : Colors.greenAccent.withOpacity(0.3),
+                  ? AppThemes.getAccentColor(context).withOpacity(0.6)
+                  : AppThemes.getTerminalBorder(context),
               width: isToday ? 1.5 : 1,
             ),
           ),
@@ -245,7 +247,7 @@ class EventCard extends AnimatedWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.greenAccent.withOpacity(0.15),
+                      color: AppThemes.getAccentColor(context).withOpacity(0.15),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(7),
                         topRight: Radius.circular(7),
@@ -257,7 +259,7 @@ class EventCard extends AnimatedWidget {
                           width: 8, height: 8,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.greenAccent,
+                            color: AppThemes.getAccentColor(context),
                           ),
                         ),
                         SizedBox(width: 4),
@@ -265,7 +267,7 @@ class EventCard extends AnimatedWidget {
                           width: 8, height: 8,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.greenAccent.withOpacity(0.5),
+                            color: AppThemes.getAccentColor(context).withOpacity(0.5),
                           ),
                         ),
                         SizedBox(width: 4),
@@ -273,7 +275,7 @@ class EventCard extends AnimatedWidget {
                           width: 8, height: 8,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.greenAccent.withOpacity(0.3),
+                            color: AppThemes.getAccentColor(context).withOpacity(0.3),
                           ),
                         ),
                         Spacer(),
@@ -282,7 +284,7 @@ class EventCard extends AnimatedWidget {
                           style: TextStyle(
                             fontFamily: 'Courier',
                             fontSize: 10,
-                            color: Colors.greenAccent.withOpacity(0.7),
+                            color: AppThemes.getSecondaryTextColor(context),
                           ),
                         ),
                       ],
@@ -291,26 +293,28 @@ class EventCard extends AnimatedWidget {
 
                   // Event content
                   ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Increased vertical padding
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     leading: Container(
                       width: 65,
                       child: Column(
-                        mainAxisSize: MainAxisSize.min, // Ensure column takes minimum space
-                        mainAxisAlignment: MainAxisAlignment.start, // Align to top instead of center
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           // Time badge
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3), // Reduced padding
+                            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                             decoration: BoxDecoration(
-                              color: Colors.black38,
+                              color: isDark 
+                                  ? Colors.black38 
+                                  : AppThemes.getAccentColor(context).withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: Colors.greenAccent.withOpacity(0.5),
+                                color: AppThemes.getTerminalBorder(context),
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.greenAccent.withOpacity(0.15),
+                                  color: AppThemes.getAccentColor(context).withOpacity(0.15),
                                   blurRadius: 4,
                                   spreadRadius: 0,
                                 )
@@ -320,16 +324,13 @@ class EventCard extends AnimatedWidget {
                               DateFormat('HH:mm').format(e.date),
                               style: TextStyle(
                                 fontFamily: 'VT323',
-                                fontSize: 14, // Reduced from 16
-                                color: Colors.greenAccent,
+                                fontSize: 14,
+                                color: AppThemes.getAccentColor(context),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-
-                          // Favorite button
-                          SizedBox(height: 6), // Reduced from 6
-                          //_buildFavoriteButton(),
+                          SizedBox(height: 6),
                         ],
                       ),
                     ),
@@ -338,7 +339,7 @@ class EventCard extends AnimatedWidget {
                       style: TextStyle(
                         fontFamily: 'VT323',
                         fontSize: 18,
-                        color: Colors.greenAccent,
+                        color: AppThemes.getAccentColor(context),
                         letterSpacing: 0.5,
                       ),
                       maxLines: 1,
@@ -346,7 +347,7 @@ class EventCard extends AnimatedWidget {
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min, // Ensure minimum height
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(height: 4),
                         // Speaker
@@ -355,7 +356,7 @@ class EventCard extends AnimatedWidget {
                             Icon(
                               Icons.person_outline,
                               size: 14,
-                              color: Colors.greenAccent.withOpacity(0.7),
+                              color: AppThemes.getSecondaryTextColor(context),
                             ),
                             SizedBox(width: 4),
                             Expanded(
@@ -363,8 +364,8 @@ class EventCard extends AnimatedWidget {
                                 e.person.replaceAll("(", "").replaceAll(")", ""),
                                 style: TextStyle(
                                   fontFamily: 'Courier',
-                                  fontSize: 11, // Reduced from 12
-                                  color: Colors.greenAccent.withOpacity(0.7),
+                                  fontSize: 11,
+                                  color: AppThemes.getSecondaryTextColor(context),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -374,14 +375,16 @@ class EventCard extends AnimatedWidget {
                         ),
 
                         // Type badge
-                        SizedBox(height: 4), // Reduced from 6
+                        SizedBox(height: 4),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1), // Reduced padding
+                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                           decoration: BoxDecoration(
-                            color: Colors.black26,
+                            color: isDark 
+                                ? Colors.black26 
+                                : AppThemes.getAccentColor(context).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(4),
                             border: Border.all(
-                              color: Colors.greenAccent.withOpacity(0.3),
+                              color: AppThemes.getTerminalBorder(context),
                               width: 0.5,
                             ),
                           ),
@@ -389,8 +392,8 @@ class EventCard extends AnimatedWidget {
                             e.type,
                             style: TextStyle(
                               fontFamily: 'Courier',
-                              fontSize: 9, // Reduced from 10
-                              color: Colors.greenAccent.withOpacity(0.8),
+                              fontSize: 9,
+                              color: AppThemes.getAccentColor(context).withOpacity(0.8),
                             ),
                           ),
                         ),
@@ -404,7 +407,7 @@ class EventCard extends AnimatedWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.greenAccent.withOpacity(0.2),
+                        color: AppThemes.getAccentColor(context).withOpacity(0.2),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(8),
                           topRight: Radius.circular(8),
@@ -415,15 +418,13 @@ class EventCard extends AnimatedWidget {
                         style: TextStyle(
                           fontFamily: 'VT323',
                           fontSize: 12,
-                          color: Colors.greenAccent,
+                          color: AppThemes.getAccentColor(context),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                 ],
               ),
-
-
             ],
           ),
         ),
@@ -448,11 +449,11 @@ class EventCard extends AnimatedWidget {
                   padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isFavorite ? Colors.greenAccent.withOpacity(0.2) : Colors.transparent,
+                    color: isFavorite ? AppThemes.getAccentColor(context).withOpacity(0.2) : Colors.transparent,
                   ),
                   child: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_outline,
-                    color: Colors.greenAccent,
+                    color: AppThemes.getAccentColor(context),
                     size: 20,
                   ),
                 ),

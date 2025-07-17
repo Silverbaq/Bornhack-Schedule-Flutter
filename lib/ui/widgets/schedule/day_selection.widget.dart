@@ -1,38 +1,44 @@
 import 'package:bornhack/business_logic/model/day.model.dart';
 import 'package:bornhack/ui/widgets/schedule/DaySelectionViewModel.dart';
+import 'package:bornhack/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
 
 import 'day_row.widget.dart';
 
 class DaySelectionWidget extends StatelessWidget {
-  DaySelectionWidget(this.days);
+  DaySelectionWidget(this.days, {required this.onThemeToggle});
+  final VoidCallback onThemeToggle;
 
   final List<Day> days;
 
   @override
   Widget build(BuildContext context) {
     return MVVM(
-        view: () => _DaySelectionState(), viewModel: DaySelectionViewModel(days));
+        view: () => _DaySelectionState(onThemeToggle: onThemeToggle,), viewModel: DaySelectionViewModel(days));
   }
 }
 
 class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
+  final VoidCallback onThemeToggle;
+
+  _DaySelectionState({required this.onThemeToggle});
+
   @override
   Widget render(BuildContext context, DaySelectionViewModel viewModel) {
     return DefaultTabController(
       length: viewModel.days.length,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Color(0xFF0A1A12),
+          backgroundColor: Theme.of(context).cardColor,
           elevation: 8,
-          shadowColor: Colors.greenAccent.withOpacity(0.3),
+          shadowColor: AppThemes.getAccentColor(context).withOpacity(0.3),
           bottom: TabBar(
-            indicatorColor: Colors.greenAccent,
+            indicatorColor: AppThemes.getAccentColor(context),
             indicatorWeight: 3,
-            labelColor: Colors.greenAccent,
-            unselectedLabelColor: Colors.greenAccent.withOpacity(0.5),
+            labelColor: AppThemes.getAccentColor(context),
+            unselectedLabelColor: AppThemes.getSecondaryTextColor(context),
             labelStyle: TextStyle(
               fontFamily: 'VT323',
               fontSize: 20,
@@ -63,13 +69,13 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
           ),
           title: Row(
             children: [
-              Icon(Icons.terminal, color: Colors.greenAccent),
+              Icon(Icons.terminal, color: AppThemes.getAccentColor(context)),
               SizedBox(width: 8),
               Text(
                 'Bornhack',
                 style: TextStyle(
                   fontFamily: 'VT323',
-                  color: Colors.greenAccent,
+                  color: AppThemes.getAccentColor(context),
                   fontSize: 24,
                   letterSpacing: 1.2,
                 ),
@@ -77,23 +83,35 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
             ],
           ),
           actions: <Widget>[
+
+            IconButton(
+              icon: Icon(
+                Theme.of(context).brightness == Brightness.dark
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+                color: AppThemes.getAccentColor(context),
+              ),
+              onPressed: onThemeToggle,
+              tooltip: 'Toggle Theme',
+            ),
+
             Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.greenAccent.withOpacity(0.5),
+                    color: AppThemes.getTerminalBorder(context),
                     width: 1.5,
                   ),
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.greenAccent.withOpacity(0.2),
+                      color: AppThemes.getAccentColor(context).withOpacity(0.2),
                       blurRadius: 4,
                       spreadRadius: 0,
                     )
                   ],
-                  color: Colors.black.withOpacity(0.4),
+                  color: AppThemes.getTerminalBackground(context),
                 ),
                 child: GestureDetector(
                   onTap: () {
@@ -104,7 +122,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
                       SnackBar(
                         content: Row(
                           children: [
-                            Icon(Icons.terminal, color: Colors.greenAccent, size: 16),
+                            Icon(Icons.terminal, color: AppThemes.getAccentColor(context), size: 16),
                             SizedBox(width: 8),
                             Text(
                               viewModel.displayAsList 
@@ -112,17 +130,17 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
                                 : '> switching to list view...',
                               style: TextStyle(
                                 fontFamily: 'Courier',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                               ),
                             ),
                           ],
                         ),
-                        backgroundColor: Color(0xFF0A1A12),
+                        backgroundColor: Theme.of(context).cardColor,
                         duration: Duration(seconds: 1),
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
-                          side: BorderSide(color: Colors.greenAccent.withOpacity(0.3)),
+                          side: BorderSide(color: AppThemes.getTerminalBorder(context)),
                         ),
                       ),
                     );
@@ -136,7 +154,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
                       children: [
                         Icon(
                           viewModel.displayAsList ? Icons.meeting_room_outlined : Icons.list,
-                          color: Colors.greenAccent,
+                          color: AppThemes.getAccentColor(context),
                           size: 20.0,
                         ),
                         SizedBox(width: 6),
@@ -144,7 +162,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
                           viewModel.displayAsList ? 'VENUE' : 'LIST',
                           style: TextStyle(
                             fontFamily: 'VT323',
-                            color: Colors.greenAccent,
+                            color: AppThemes.getAccentColor(context),
                             fontSize: 16,
                           ),
                         ),
@@ -158,7 +176,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
         ),
         body: Container(
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: Theme.of(context).scaffoldBackgroundColor,
             image: DecorationImage(
               image: AssetImage('assets/grid_background.png'),
               opacity: 0.1,

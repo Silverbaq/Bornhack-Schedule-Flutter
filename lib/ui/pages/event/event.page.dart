@@ -1,5 +1,6 @@
 import 'package:bornhack/business_logic/model/event.model.dart';
 import 'package:bornhack/ui/widgets/event/info_card.widget.dart';
+import 'package:bornhack/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:pmvvm/pmvvm.dart';
 import 'dart:math' as math;
@@ -24,9 +25,9 @@ class _EventPage extends StatelessView<EventViewModel> {
   @override
   Widget render(BuildContext context, EventViewModel viewModel) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A1A12),
+        backgroundColor: Theme.of(context).cardColor,
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +41,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                   style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'VT323',
-                    color: Colors.greenAccent,
+                    color: AppThemes.getAccentColor(context),
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -62,7 +63,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                         ? Icons.favorite_outlined
                         : Icons.favorite_outline,
                     key: ValueKey<bool>(viewModel.isEventAFavorite),
-                    color: Colors.greenAccent,
+                    color: AppThemes.getAccentColor(context),
                     size: 28,
                   ),
                 ),
@@ -73,7 +74,7 @@ class _EventPage extends StatelessView<EventViewModel> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Theme.of(context).scaffoldBackgroundColor,
           image: DecorationImage(
             image: AssetImage('assets/grid_background.png'),
             opacity: 0.1,
@@ -88,17 +89,17 @@ class _EventPage extends StatelessView<EventViewModel> {
                 // Date/Time Card with terminal-like header
                 Card(
                   elevation: 8,
-                  color: Color(0xFF0A1A12),
+                  color: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+                    side: BorderSide(color: AppThemes.getTerminalBorder(context), width: 1),
                   ),
                   child: Column(
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2),
+                          color: AppThemes.getAccentColor(context).withOpacity(0.2),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8),
@@ -106,13 +107,13 @@ class _EventPage extends StatelessView<EventViewModel> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                            Icon(Icons.circle, color: AppThemes.getAccentColor(context), size: 12),
                             SizedBox(width: 8),
                             Text(
                               "event_datetime.sh",
                               style: TextStyle(
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                                 fontSize: 16,
                               ),
                             ),
@@ -124,14 +125,14 @@ class _EventPage extends StatelessView<EventViewModel> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.calendar_today, color: Colors.greenAccent),
+                            Icon(Icons.calendar_today, color: AppThemes.getAccentColor(context)),
                             SizedBox(width: 12),
                             Text(
                               viewModel.dateTimeToStringFormat(viewModel.event.date),
                               style: TextStyle(
                                 fontSize: 22,
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                               ),
                             ),
                           ],
@@ -145,17 +146,17 @@ class _EventPage extends StatelessView<EventViewModel> {
                 // Room Card
                 Card(
                   elevation: 8,
-                  color: Color(0xFF0A1A12),
+                  color: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+                    side: BorderSide(color: AppThemes.getTerminalBorder(context), width: 1),
                   ),
                   child: Column(
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2),
+                          color: AppThemes.getAccentColor(context).withOpacity(0.2),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8),
@@ -163,13 +164,13 @@ class _EventPage extends StatelessView<EventViewModel> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                            Icon(Icons.circle, color: AppThemes.getAccentColor(context), size: 12),
                             SizedBox(width: 8),
                             Text(
                               "location.sh",
                               style: TextStyle(
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                                 fontSize: 16,
                               ),
                             ),
@@ -181,14 +182,14 @@ class _EventPage extends StatelessView<EventViewModel> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.meeting_room, color: Colors.greenAccent),
+                            Icon(Icons.meeting_room, color: AppThemes.getAccentColor(context)),
                             SizedBox(width: 12),
                             Text(
                               viewModel.event.room,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                               ),
                             ),
                           ],
@@ -206,6 +207,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                     Expanded(
                       flex: 5,
                       child: _buildInfoCard(
+                        context,
                         "Type",
                         "${viewModel.event.type}",
                         Icons.category,
@@ -215,6 +217,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                     Expanded(
                       flex: 5,
                       child: _buildInfoCard(
+                        context,
                         "Speaker",
                         "${viewModel.event.person.replaceAll("(", "").replaceAll(")", "")}",
                         Icons.person,
@@ -231,6 +234,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                     Expanded(
                       flex: 5,
                       child: _buildInfoCard(
+                        context,
                         "Duration",
                         formatDuration(viewModel.event.duration),
                         Icons.timer,
@@ -240,6 +244,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                     Expanded(
                       flex: 5,
                       child: _buildInfoCard(
+                        context,
                         "Recording",
                         "${viewModel.event.recording ? "Yes" : "No"}",
                         Icons.videocam,
@@ -252,10 +257,10 @@ class _EventPage extends StatelessView<EventViewModel> {
                 // Abstract Card
                 Card(
                   elevation: 8,
-                  color: Color(0xFF0A1A12),
+                  color: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+                    side: BorderSide(color: AppThemes.getTerminalBorder(context), width: 1),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,7 +268,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2),
+                          color: AppThemes.getAccentColor(context).withOpacity(0.2),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(8),
                             topRight: Radius.circular(8),
@@ -271,18 +276,18 @@ class _EventPage extends StatelessView<EventViewModel> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                            Icon(Icons.circle, color: AppThemes.getAccentColor(context), size: 12),
                             SizedBox(width: 8),
                             Text(
                               "README.md",
                               style: TextStyle(
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                                 fontSize: 16,
                               ),
                             ),
                             Spacer(),
-                            _buildBlinkingCursor(),
+                            _buildBlinkingCursor(context),
                           ],
                         ),
                       ),
@@ -295,7 +300,7 @@ class _EventPage extends StatelessView<EventViewModel> {
                               "Abstract:",
                               style: TextStyle(
                                 fontFamily: 'VT323',
-                                color: Colors.greenAccent,
+                                color: AppThemes.getAccentColor(context),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -304,16 +309,16 @@ class _EventPage extends StatelessView<EventViewModel> {
                             Container(
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.greenAccent.withOpacity(0.3), width: 1),
+                                border: Border.all(color: AppThemes.getTerminalBorder(context), width: 1),
                                 borderRadius: BorderRadius.circular(4),
-                                color: Colors.black.withOpacity(0.3),
+                                color: AppThemes.getCodeBlockBackground(context),
                               ),
                               child: Text(
                                 viewModel.event.abstract,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Courier',
-                                  color: Colors.greenAccent,
+                                  color: AppThemes.getAccentColor(context),
                                   height: 1.5,
                                 ),
                               ),
@@ -333,13 +338,13 @@ class _EventPage extends StatelessView<EventViewModel> {
     );
   }
   
-  Widget _buildInfoCard(String title, String value, IconData icon) {
+  Widget _buildInfoCard(BuildContext context, String title, String value, IconData icon) {
     return Card(
       elevation: 8,
-      color: Color(0xFF0A1A12),
+      color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: Colors.greenAccent.withOpacity(0.5), width: 1),
+        side: BorderSide(color: AppThemes.getTerminalBorder(context), width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -348,14 +353,14 @@ class _EventPage extends StatelessView<EventViewModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: Colors.greenAccent, size: 16),
+                Icon(icon, color: AppThemes.getAccentColor(context), size: 16),
                 SizedBox(width: 6),
                 Text(
                   title,
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'VT323',
-                    color: Colors.greenAccent.withOpacity(0.7),
+                    color: AppThemes.getAccentColor(context).withOpacity(0.7),
                   ),
                 ),
               ],
@@ -366,7 +371,7 @@ class _EventPage extends StatelessView<EventViewModel> {
               style: TextStyle(
                 fontSize: 18,
                 fontFamily: 'Courier',
-                color: Colors.greenAccent,
+                color: AppThemes.getAccentColor(context),
               ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
@@ -378,7 +383,7 @@ class _EventPage extends StatelessView<EventViewModel> {
     );
   }
   
-  Widget _buildBlinkingCursor() {
+  Widget _buildBlinkingCursor(BuildContext context) {
     return BlinkingCursor();
   }
 }
@@ -413,7 +418,7 @@ class _BlinkingCursorState extends State<BlinkingCursor> with SingleTickerProvid
       child: Container(
         width: 8,
         height: 16,
-        color: Colors.greenAccent,
+        color: AppThemes.getAccentColor(context),
       ),
     );
   }
