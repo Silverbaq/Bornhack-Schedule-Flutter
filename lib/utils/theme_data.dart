@@ -78,7 +78,7 @@ class AppThemes {
   );
 
   static ThemeData get pinkTheme => ThemeData.light().copyWith(
-    primaryColor: Color(0xFFF3B2C7), // R:243 G:178 B:199
+    primaryColor: Color(0xFFFFAFC7), // Pink color: #FFAFC7
     scaffoldBackgroundColor: Color(0xFFFDF8FA), // Very light pink background
     cardColor: Color(0xFFF9F0F3), // Light pink card background
     appBarTheme: AppBarTheme(
@@ -121,7 +121,7 @@ class AppThemes {
     final primaryColor = Theme.of(context).primaryColor;
     
     // Check if it's the pink theme
-    if (primaryColor == Color(0xFFF3B2C7)) {
+    if (primaryColor == Color(0xFFFFAFC7)) {
       return Color(0xFFD1477A);
     }
     
@@ -135,7 +135,7 @@ class AppThemes {
     final primaryColor = Theme.of(context).primaryColor;
     
     // Check if it's the pink theme
-    if (primaryColor == Color(0xFFF3B2C7)) {
+    if (primaryColor == Color(0xFFFFAFC7)) {
       return Color(0xFFB8396B);
     }
     
@@ -149,8 +149,8 @@ class AppThemes {
     final primaryColor = Theme.of(context).primaryColor;
     
     // Check if it's the pink theme
-    if (primaryColor == Color(0xFFF3B2C7)) {
-      return Color(0xFFF3B2C7).withOpacity(0.6);
+    if (primaryColor == Color(0xFFFFAFC7)) {
+      return Color(0xFFFFAFC7).withOpacity(0.6);
     }
     
     return brightness == Brightness.dark 
@@ -163,7 +163,7 @@ class AppThemes {
     final primaryColor = Theme.of(context).primaryColor;
     
     // Check if it's the pink theme
-    if (primaryColor == Color(0xFFF3B2C7)) {
+    if (primaryColor == Color(0xFFFFAFC7)) {
       return Color(0xFFF9F0F3);
     }
     
@@ -177,8 +177,8 @@ class AppThemes {
     final primaryColor = Theme.of(context).primaryColor;
     
     // Check if it's the pink theme
-    if (primaryColor == Color(0xFFF3B2C7)) {
-      return Color(0xFFF3B2C7).withOpacity(0.1);
+    if (primaryColor == Color(0xFFFFAFC7)) {
+      return Color(0xFFFFAFC7).withOpacity(0.1);
     }
     
     return brightness == Brightness.dark 

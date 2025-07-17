@@ -212,7 +212,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
   IconData _getThemeIcon(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
     
-    if (primaryColor == Color(0xFFF3B2C7)) {
+    if (primaryColor == Color(0xFFFFAFC7)) {
       return Icons.palette; // Pink theme
     } else if (Theme.of(context).brightness == Brightness.dark) {
       return Icons.light_mode; // Dark theme
