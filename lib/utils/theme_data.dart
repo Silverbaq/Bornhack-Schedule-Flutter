@@ -2,39 +2,40 @@ import 'package:flutter/material.dart';
 
 class AppThemes {
   static ThemeData get darkTheme => ThemeData.dark().copyWith(
-    primaryColor: Colors.green,
-    scaffoldBackgroundColor: Colors.black,
-    cardColor: Color(0xFF0A1A12),
+    primaryColor: Colors.green[400],
+    scaffoldBackgroundColor: Color(0xFF0A0A0A), // Dark terminal background
+    cardColor: Color(0xFF1A1A1A), // Dark card background
     appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xFF0A1A12),
+      backgroundColor: Color(0xFF1A1A1A),
       elevation: 0,
+      foregroundColor: Colors.green[400],
     ),
     textTheme: TextTheme(
       headlineLarge: TextStyle(
         fontSize: 24, 
         fontWeight: FontWeight.bold, 
-        color: Colors.greenAccent,
+        color: Colors.green[400],
         fontFamily: 'VT323',
       ),
       headlineMedium: TextStyle(
         fontSize: 24, 
         fontWeight: FontWeight.bold, 
-        color: Colors.greenAccent,
+        color: Colors.green[400],
         fontFamily: 'VT323',
       ),
       bodyLarge: TextStyle(
         fontSize: 14.0, 
-        color: Colors.greenAccent,
+        color: Colors.green[300],
         fontFamily: 'Courier',
       ),
       bodyMedium: TextStyle(
         fontSize: 12.0, 
-        color: Colors.greenAccent,
+        color: Colors.green[300],
         fontFamily: 'Courier',
       ),
     ),
     iconTheme: IconThemeData(
-      color: Colors.greenAccent,
+      color: Colors.green[400],
     ),
   );
 
@@ -76,34 +77,112 @@ class AppThemes {
     ),
   );
 
+  static ThemeData get pinkTheme => ThemeData.light().copyWith(
+    primaryColor: Color(0xFFF3B2C7), // R:243 G:178 B:199
+    scaffoldBackgroundColor: Color(0xFFFDF8FA), // Very light pink background
+    cardColor: Color(0xFFF9F0F3), // Light pink card background
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xFFF9F0F3),
+      elevation: 0,
+      foregroundColor: Color(0xFFD1477A), // Darker pink for contrast
+    ),
+    textTheme: TextTheme(
+      headlineLarge: TextStyle(
+        fontSize: 24, 
+        fontWeight: FontWeight.bold, 
+        color: Color(0xFFD1477A),
+        fontFamily: 'VT323',
+      ),
+      headlineMedium: TextStyle(
+        fontSize: 24, 
+        fontWeight: FontWeight.bold, 
+        color: Color(0xFFD1477A),
+        fontFamily: 'VT323',
+      ),
+      bodyLarge: TextStyle(
+        fontSize: 14.0, 
+        color: Color(0xFFB8396B),
+        fontFamily: 'Courier',
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 12.0, 
+        color: Color(0xFFB8396B),
+        fontFamily: 'Courier',
+      ),
+    ),
+    iconTheme: IconThemeData(
+      color: Color(0xFFD1477A),
+    ),
+  );
+
   // Helper methods for consistent theming
   static Color getAccentColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.greenAccent 
+    final brightness = Theme.of(context).brightness;
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    // Check if it's the pink theme
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Color(0xFFD1477A);
+    }
+    
+    return brightness == Brightness.dark 
+        ? Colors.green[400]! 
         : Colors.green[800]!;
   }
 
   static Color getSecondaryTextColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.greenAccent.withOpacity(0.7) 
-        : Colors.green[600]!;
+    final brightness = Theme.of(context).brightness;
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    // Check if it's the pink theme
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Color(0xFFB8396B);
+    }
+    
+    return brightness == Brightness.dark 
+        ? Colors.green[300]! 
+        : Colors.green[700]!;
   }
 
   static Color getTerminalBorder(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.greenAccent.withOpacity(0.5) 
-        : Colors.green[400]!.withOpacity(0.6);
+    final brightness = Theme.of(context).brightness;
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    // Check if it's the pink theme
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Color(0xFFF3B2C7).withOpacity(0.6);
+    }
+    
+    return brightness == Brightness.dark 
+        ? Colors.green[400]!.withOpacity(0.6) 
+        : Colors.green[800]!.withOpacity(0.4);
   }
 
   static Color getTerminalBackground(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? Colors.black.withOpacity(0.4) 
-        : Colors.green[50]!.withOpacity(0.8);
+    final brightness = Theme.of(context).brightness;
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    // Check if it's the pink theme
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Color(0xFFF9F0F3);
+    }
+    
+    return brightness == Brightness.dark 
+        ? Color(0xFF1A1A1A) 
+        : Color(0xFFE8E8E0);
   }
 
   static Color getCodeBlockBackground(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark 
-        ? Color(0xFF0D1B0F) // Darker green-tinted background for dark theme
-        : Color(0xFFF0F8F0); // Light green-tinted background for light theme
+    final brightness = Theme.of(context).brightness;
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    // Check if it's the pink theme
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Color(0xFFF3B2C7).withOpacity(0.1);
+    }
+    
+    return brightness == Brightness.dark 
+        ? Colors.black26 
+        : Colors.green[800]!.withOpacity(0.1);
   }
 }

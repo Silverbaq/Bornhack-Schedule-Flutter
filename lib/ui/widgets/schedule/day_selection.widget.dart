@@ -86,9 +86,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
 
             IconButton(
               icon: Icon(
-                Theme.of(context).brightness == Brightness.dark
-                    ? Icons.light_mode
-                    : Icons.dark_mode,
+                _getThemeIcon(context),
                 color: AppThemes.getAccentColor(context),
               ),
               onPressed: onThemeToggle,
@@ -208,6 +206,18 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
       case 11: return 'NOV';
       case 12: return 'DEC';
       default: return '';
+    }
+  }
+
+  IconData _getThemeIcon(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+    
+    if (primaryColor == Color(0xFFF3B2C7)) {
+      return Icons.palette; // Pink theme
+    } else if (Theme.of(context).brightness == Brightness.dark) {
+      return Icons.light_mode; // Dark theme
+    } else {
+      return Icons.dark_mode; // Light theme
     }
   }
 }

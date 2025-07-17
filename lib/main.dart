@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bornhack/app.dart';
+import 'package:bornhack/utils/settings_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'business_logic/controllers/notification_controller.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isDarkMode = true;
+  int _themeIndex = 0; // 0: dark, 1: light, 2: pink
 
   @override
   void initState() {
@@ -34,26 +35,49 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _loadTheme() async {
-    final isDark = await ThemeStorage.isDarkMode();
+    final settingsStorage = SettingsStorage();
+    final themeIndex = await settingsStorage.getThemeIndex();
     setState(() {
-      _isDarkMode = isDark;
+      _themeIndex = themeIndex;
     });
   }
 
   void toggleTheme() async {
+    final settingsStorage = SettingsStorage();
     setState(() {
-      _isDarkMode = !_isDarkMode;
+      _themeIndex = (_themeIndex + 1) % 3; // Cycle through 0, 1, 2
     });
-    await ThemeStorage.setDarkMode(_isDarkMode);
+    await settingsStorage.setThemeIndex(_themeIndex);
   }
 
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme;
+    ThemeMode themeMode;
+    
+    switch (_themeIndex) {
+      case 0:
+        currentTheme = AppThemes.darkTheme;
+        themeMode = ThemeMode.dark;
+        break;
+      case 1:
+        currentTheme = AppThemes.lightTheme;
+        themeMode = ThemeMode.light;
+        break;
+      case 2:
+        currentTheme = AppThemes.pinkTheme;
+        themeMode = ThemeMode.light;
+        break;
+      default:
+        currentTheme = AppThemes.darkTheme;
+        themeMode = ThemeMode.dark;
+    }
+
     return MaterialApp(
       title: 'BornHack App',
-      theme: AppThemes.lightTheme,
+      theme: currentTheme,
       darkTheme: AppThemes.darkTheme,
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: themeMode,
       home: Main(onThemeToggle: toggleTheme),
       debugShowCheckedModeBanner: false,
     );
