@@ -86,19 +86,6 @@ class _EventsWidget extends State<EventsWidget> with TickerProviderStateMixin {
               final RenderBox? box = cardKey.currentContext?.findRenderObject() as RenderBox?;
               Navigator.push(context, createRouter(e));
             },
-            onFavoriteToggle: () async {
-              final isFavorite = await _favoriteStorage.isFavorite(e.eventId);
-              if (isFavorite) {
-                await removeScheduledNotification(int.parse(e.eventId));
-                _favoriteStorage.removeFavorite(e.eventId);
-              } else {
-                NotificationData data = NotificationData(
-                  int.parse(e.eventId), e.title, e.abstract, e.date);
-                await createScheduledNotification(data);
-                _favoriteStorage.addFavorite(e.eventId);
-              }
-              setState(() {});
-            },
             favoriteStorage: _favoriteStorage,
             pulseAnimation: _pulseAnimation,
           );
@@ -124,9 +111,9 @@ class EventCard extends AnimatedWidget {
   final Event event;
   final bool isToday;
   final VoidCallback onTap;
-  final VoidCallback onFavoriteToggle;
   final FavoriteStorage favoriteStorage;
   final Animation<double> pulseAnimation;
+  late final ValueNotifier<bool?> _favoriteNotifier;
   
   EventCard({
     required Key key,
@@ -134,10 +121,20 @@ class EventCard extends AnimatedWidget {
     required Animation<double> animation,
     this.isToday = false,
     required this.onTap,
-    required this.onFavoriteToggle,
     required this.favoriteStorage,
     required this.pulseAnimation,
-  }) : super(key: key, listenable: animation);
+  }) : super(key: key, listenable: animation) {
+    _favoriteNotifier = ValueNotifier<bool?>(null);
+    _loadFavoriteStatus();
+  }
+  
+  void _loadFavoriteStatus() async {
+    final isFavorite = await favoriteStorage.isFavorite(event.eventId);
+    // Only update if the value has changed
+    if (_favoriteNotifier.value != isFavorite) {
+      _favoriteNotifier.value = isFavorite;
+    }
+  }
   
   Animation<double> get animation => listenable as Animation<double>;
   
@@ -200,7 +197,10 @@ class EventCard extends AnimatedWidget {
               if (currentBlink >= blinkCount * 2) {
                 timer.cancel();
                 entry?.remove();
-                onTap();
+                // Navigate and refresh favorite status when returning
+                Navigator.push(context, createRouter(event)).then((_) {
+                  _loadFavoriteStatus(); // Refresh the favorite status
+                });
                 return;
               }
 
@@ -222,7 +222,9 @@ class EventCard extends AnimatedWidget {
             });
           } else {
             // Fallback if we can't get the card position
-            onTap();
+            Navigator.push(context, createRouter(event)).then((_) {
+              _loadFavoriteStatus(); // Refresh the favorite status
+            });
           }
         },
         child: Card(
@@ -433,13 +435,50 @@ class EventCard extends AnimatedWidget {
   }
 
   Widget _buildFavoriteButton() {
-    return FutureBuilder(
-      future: favoriteStorage.isFavorite(event.eventId),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        bool isFavorite = snapshot.hasData && snapshot.data;
+    return ValueListenableBuilder<bool?>(
+      valueListenable: _favoriteNotifier,
+      builder: (BuildContext context, bool? isFavorite, Widget? child) {
+        // Show loading state if isFavorite is null
+        if (isFavorite == null) {
+          return Container(
+            padding: EdgeInsets.all(4),
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AppThemes.getAccentColor(context).withOpacity(0.5)
+                ),
+              ),
+            ),
+          );
+        }
 
         return GestureDetector(
-          onTap: onFavoriteToggle,
+          onTap: () async {
+            // Optimistically update the UI immediately
+            final newValue = !isFavorite;
+            _favoriteNotifier.value = newValue;
+
+            // Perform the actual storage operation
+            if (newValue) {
+              NotificationData data = NotificationData(
+                int.parse(event.eventId), event.title, event.abstract, event.date);
+              await createScheduledNotification(data);
+              favoriteStorage.addFavorite(event.eventId);
+            } else {
+              await removeScheduledNotification(int.parse(event.eventId));
+              favoriteStorage.removeFavorite(event.eventId);
+            }
+
+            // Verify the operation succeeded by checking storage
+            final actualValue = await favoriteStorage.isFavorite(event.eventId);
+            if (_favoriteNotifier.value != actualValue) {
+              // If there was an error, revert to the actual value
+              _favoriteNotifier.value = actualValue;
+            }
+          },
           child: AnimatedBuilder(
             animation: pulseAnimation,
             builder: (context, child) {
