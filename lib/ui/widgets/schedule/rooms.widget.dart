@@ -1,4 +1,5 @@
 import 'package:bornhack/business_logic/model/room.model.dart';
+import 'package:bornhack/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 
 import 'event.widget.dart';
@@ -21,21 +22,21 @@ class RoomsWidget extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Color(0xFF0A1A12),
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
+                      border: Border.all(color: AppThemes.getTerminalBorder(context)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.computer, color: Colors.greenAccent, size: 18),
+                        Icon(Icons.computer, color: AppThemes.getAccentColor(context), size: 18),
                         SizedBox(width: 8),
                         Text(
                           room.name,
                           style: TextStyle(
                             fontFamily: 'VT323',
                             fontSize: 22,
-                            color: Colors.greenAccent,
+                            color: AppThemes.getAccentColor(context),
                           ),
                         ),
                       ],
