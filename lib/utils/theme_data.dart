@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
 
 class AppThemes {
+  // Year-based color mapping
+  static const Map<int, Color> yearColors = {
+    2025: Color(0xFFFFAFC7), // Pink
+    2026: Color(0xFFFFFFFF), // White
+    2027: Color(0xFF004DFF), // Blue
+    2028: Color(0xFF750787), // Purple
+    2029: Color(0xFF008026), // Green
+  };
+
+  static Color getCurrentYearColor() {
+    final currentYear = DateTime.now().year;
+    return yearColors[currentYear] ?? Color(0xFFFFAFC7); // Default to 2025 color
+  }
+
+  static String getCurrentYearName() {
+    final currentYear = DateTime.now().year;
+    return currentYear.toString();
+  }
+
   static ThemeData get darkTheme => ThemeData.dark().copyWith(
     primaryColor: Colors.green[400],
     scaffoldBackgroundColor: Color(0xFF0A0A0A), // Dark terminal background
@@ -77,52 +96,104 @@ class AppThemes {
     ),
   );
 
-  static ThemeData get pinkTheme => ThemeData.light().copyWith(
-    primaryColor: Color(0xFFFFAFC7), // Pink color: #FFAFC7
-    scaffoldBackgroundColor: Color(0xFFFDF8FA), // Very light pink background
-    cardColor: Color(0xFFF9F0F3), // Light pink card background
-    appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xFFF9F0F3),
-      elevation: 0,
-      foregroundColor: Color(0xFFD1477A), // Darker pink for contrast
-    ),
-    textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        fontSize: 24, 
-        fontWeight: FontWeight.bold, 
-        color: Color(0xFFD1477A),
-        fontFamily: 'VT323',
+  static ThemeData get yearTheme {
+    final yearColor = getCurrentYearColor();
+    final accentColor = _getYearAccentColor(yearColor);
+    final backgroundColor = _getYearBackgroundColor(yearColor);
+    final cardColor = _getYearCardColor(yearColor);
+    
+    return ThemeData.light().copyWith(
+      primaryColor: yearColor,
+      scaffoldBackgroundColor: backgroundColor,
+      cardColor: cardColor,
+      appBarTheme: AppBarTheme(
+        backgroundColor: cardColor,
+        elevation: 0,
+        foregroundColor: accentColor,
       ),
-      headlineMedium: TextStyle(
-        fontSize: 24, 
-        fontWeight: FontWeight.bold, 
-        color: Color(0xFFD1477A),
-        fontFamily: 'VT323',
+      textTheme: TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: 24, 
+          fontWeight: FontWeight.bold, 
+          color: accentColor,
+          fontFamily: 'VT323',
+        ),
+        headlineMedium: TextStyle(
+          fontSize: 24, 
+          fontWeight: FontWeight.bold, 
+          color: accentColor,
+          fontFamily: 'VT323',
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 14.0, 
+          color: accentColor.withOpacity(0.8),
+          fontFamily: 'Courier',
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 12.0, 
+          color: accentColor.withOpacity(0.8),
+          fontFamily: 'Courier',
+        ),
       ),
-      bodyLarge: TextStyle(
-        fontSize: 14.0, 
-        color: Color(0xFFB8396B),
-        fontFamily: 'Courier',
+      iconTheme: IconThemeData(
+        color: accentColor,
       ),
-      bodyMedium: TextStyle(
-        fontSize: 12.0, 
-        color: Color(0xFFB8396B),
-        fontFamily: 'Courier',
-      ),
-    ),
-    iconTheme: IconThemeData(
-      color: Color(0xFFD1477A),
-    ),
-  );
+    );
+  }
+
+  static Color _getYearAccentColor(Color yearColor) {
+    // Generate appropriate accent colors based on the year color
+    if (yearColor == Color(0xFFFFFFFF)) { // White - use dark accent
+      return Color(0xFF333333);
+    } else if (yearColor == Color(0xFF004DFF)) { // Blue - use lighter blue
+      return Color(0xFF0066FF);
+    } else if (yearColor == Color(0xFF750787)) { // Purple - use lighter purple
+      return Color(0xFF9A0FA5);
+    } else if (yearColor == Color(0xFF008026)) { // Green - use lighter green
+      return Color(0xFF00A032);
+    } else { // Pink or default - use darker pink
+      return Color(0xFFD1477A);
+    }
+  }
+
+  static Color _getYearBackgroundColor(Color yearColor) {
+    // Generate appropriate background colors
+    if (yearColor == Color(0xFFFFFFFF)) { // White
+      return Color(0xFFFAFAFA);
+    } else if (yearColor == Color(0xFF004DFF)) { // Blue
+      return Color(0xFFF0F4FF);
+    } else if (yearColor == Color(0xFF750787)) { // Purple
+      return Color(0xFFF8F0F9);
+    } else if (yearColor == Color(0xFF008026)) { // Green
+      return Color(0xFFF0F8F2);
+    } else { // Pink or default
+      return Color(0xFFFDF8FA);
+    }
+  }
+
+  static Color _getYearCardColor(Color yearColor) {
+    // Generate appropriate card colors
+    if (yearColor == Color(0xFFFFFFFF)) { // White
+      return Color(0xFFF5F5F5);
+    } else if (yearColor == Color(0xFF004DFF)) { // Blue
+      return Color(0xFFE8F0FF);
+    } else if (yearColor == Color(0xFF750787)) { // Purple
+      return Color(0xFFF3E8F5);
+    } else if (yearColor == Color(0xFF008026)) { // Green
+      return Color(0xFFE8F5EA);
+    } else { // Pink or default
+      return Color(0xFFF9F0F3);
+    }
+  }
 
   // Helper methods for consistent theming
   static Color getAccentColor(BuildContext context) {
     final brightness = Theme.of(context).brightness;
     final primaryColor = Theme.of(context).primaryColor;
     
-    // Check if it's the pink theme
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Color(0xFFD1477A);
+    // Check if it's a year theme
+    if (yearColors.containsValue(primaryColor)) {
+      return _getYearAccentColor(primaryColor);
     }
     
     return brightness == Brightness.dark 
@@ -134,9 +205,9 @@ class AppThemes {
     final brightness = Theme.of(context).brightness;
     final primaryColor = Theme.of(context).primaryColor;
     
-    // Check if it's the pink theme
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Color(0xFFB8396B);
+    // Check if it's a year theme
+    if (yearColors.containsValue(primaryColor)) {
+      return _getYearAccentColor(primaryColor).withOpacity(0.8);
     }
     
     return brightness == Brightness.dark 
@@ -148,9 +219,9 @@ class AppThemes {
     final brightness = Theme.of(context).brightness;
     final primaryColor = Theme.of(context).primaryColor;
     
-    // Check if it's the pink theme
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Color(0xFFFFAFC7).withOpacity(0.6);
+    // Check if it's a year theme
+    if (yearColors.containsValue(primaryColor)) {
+      return _getYearAccentColor(primaryColor).withOpacity(0.6);
     }
     
     return brightness == Brightness.dark 
@@ -162,9 +233,9 @@ class AppThemes {
     final brightness = Theme.of(context).brightness;
     final primaryColor = Theme.of(context).primaryColor;
     
-    // Check if it's the pink theme
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Color(0xFFF9F0F3);
+    // Check if it's a year theme
+    if (yearColors.containsValue(primaryColor)) {
+      return _getYearCardColor(primaryColor);
     }
     
     return brightness == Brightness.dark 
@@ -176,13 +247,18 @@ class AppThemes {
     final brightness = Theme.of(context).brightness;
     final primaryColor = Theme.of(context).primaryColor;
     
-    // Check if it's the pink theme
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Color(0xFFFFAFC7).withOpacity(0.1);
+    // Check if it's a year theme
+    if (yearColors.containsValue(primaryColor)) {
+      return _getYearAccentColor(primaryColor).withOpacity(0.1);
     }
     
     return brightness == Brightness.dark 
         ? Colors.black26 
         : Colors.green[800]!.withOpacity(0.1);
+  }
+
+  static bool isYearTheme(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+    return yearColors.containsValue(primaryColor);
   }
 }

@@ -178,8 +178,9 @@ class _FavoritesWidget extends StatelessView<FavoritesViewModel> {
   IconData _getThemeIcon(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    if (primaryColor == Color(0xFFFFAFC7)) {
-      return Icons.palette; // Pink theme
+    // Check if it's a year theme
+    if (AppThemes.yearColors.containsValue(primaryColor)) {
+      return Icons.palette; // Year theme
     } else if (Theme.of(context).brightness == Brightness.dark) {
       return Icons.light_mode; // Dark theme
     } else {

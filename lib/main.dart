@@ -26,7 +26,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _themeIndex = 0; // 0: dark, 1: light, 2: pink
+  int _themeIndex = 0; // 0: dark, 1: light, 2: year theme
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         themeMode = ThemeMode.light;
         break;
       case 2:
-        currentTheme = AppThemes.pinkTheme;
+        currentTheme = AppThemes.yearTheme;
         themeMode = ThemeMode.light;
         break;
       default:
