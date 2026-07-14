@@ -35,10 +35,12 @@ class FavoritesViewModel extends ViewModel {
           if (await _favoriteStorage.isFavorite(event.eventId)) {
             final weekday = DateFormat('EEEE, d. MMM').format(event.date);
             (grouped[weekday] ??= []).add(event);
-            grouped[weekday]!.sort((a, b) => a.date.compareTo(b.date));
           }
         }
       }
+    }
+    for (final events in grouped.values) {
+      events.sort((a, b) => a.date.compareTo(b.date));
     }
     groupedFavoriteEvents = grouped;
     notifyListeners();
