@@ -12,17 +12,21 @@ class ScheduleViewModel extends ViewModel {
 
   @override
   Future<void> onBuild() async {
-    loading = true;
+    schedule = await _scheduleRepository.getSchedule(); // instant (empty on first launch)
+    loading = schedule.days.isEmpty;                    // spinner only while empty
     notifyListeners();
-    schedule = await _scheduleRepository.getSchedule();
+    try {
+      schedule = await _scheduleRepository.refresh();   // network
+    } catch (_) {
+      // offline: keep showing the cached schedule (or stay empty on first launch)
+    }
     loading = false;
-    notifyListeners();
+    notifyListeners();                                  // silent live swap / drop spinner
   }
 
   @override
   void onResume() {
     AwesomeNotifications().setGlobalBadgeCounter(0);
-
     super.onResume();
   }
 }
