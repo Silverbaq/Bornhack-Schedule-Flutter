@@ -66,7 +66,10 @@ void main() {
     api.throwError = false; // network recovers
     final refreshed = await repo.refresh();
     expect(refreshed.days.length, 2);
-    expect(api.fetchCount, 2); // in-flight future was cleared after the failure
+    // First refresh: 3 attempts (retry limit) all failed. Second refresh: 1
+    // successful attempt. The 4th call proves the in-flight future was cleared
+    // after the failure (a poisoned future would have returned without fetching).
+    expect(api.fetchCount, 4);
   });
 
   test('refresh with a non-XML body leaves the previous good cache intact',
@@ -93,5 +96,27 @@ void main() {
 
     expect(schedule.days, isEmpty);
     expect(api.fetchCount, 0);
+  });
+
+  test('refresh retries transient server errors then succeeds', () async {
+    final api = FakeScheduleApi(oneDayXml, failuresBeforeSuccess: 2);
+    final repo = ScheduleRepository(api, FakeScheduleStorage());
+
+    final schedule = await repo.refresh();
+
+    expect(schedule.days.length, 1);
+    expect(api.fetchCount, 3); // failed twice, succeeded on the third attempt
+  });
+
+  test('refresh gives up after the retry limit and rethrows', () async {
+    final api = FakeScheduleApi(oneDayXml, failuresBeforeSuccess: 99);
+    final storage = FakeScheduleStorage()..stored = oneDayXml;
+    final repo = ScheduleRepository(api, storage);
+    await repo.getSchedule(); // one-day cache in memory
+
+    await expectLater(repo.refresh(), throwsA(anything));
+
+    expect(api.fetchCount, 3); // 3 attempts, then gives up
+    expect((await repo.getSchedule()).days.length, 1); // cache preserved
   });
 }

@@ -8,7 +8,11 @@ class ScheduleViewModel extends ViewModel {
 
   final ScheduleRepository _scheduleRepository;
   Schedule schedule = Schedule(List.empty());
-  bool loading = false;
+  // Must start true: the schedule view (DaySelectionWidget) wraps its days in a
+  // nested MVVM whose ViewModel is captured once at first build. If the first
+  // frame renders it with an empty schedule, it stays empty forever. Showing a
+  // spinner until data is present means it is only ever built with real days.
+  bool loading = true;
 
   @override
   Future<void> onBuild() async {
@@ -18,7 +22,7 @@ class ScheduleViewModel extends ViewModel {
     try {
       schedule = await _scheduleRepository.refresh();   // network
     } catch (_) {
-      // offline: keep showing the cached schedule (or stay empty on first launch)
+      // offline / transient server error: keep the cached schedule (or stay empty on first launch)
     }
     loading = false;
     notifyListeners();                                  // silent live swap / drop spinner

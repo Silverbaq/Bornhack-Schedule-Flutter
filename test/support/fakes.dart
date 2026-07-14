@@ -3,15 +3,23 @@ import 'package:bornhack/utils/favorites_storage.dart';
 import 'package:bornhack/utils/schedule_storage.dart';
 
 class FakeScheduleApi extends ScheduleApi {
-  FakeScheduleApi(this.xmlToReturn, {this.throwError = false});
+  FakeScheduleApi(
+    this.xmlToReturn, {
+    this.throwError = false,
+    this.failuresBeforeSuccess = 0,
+  });
   String xmlToReturn;
   bool throwError;
+
+  /// Throw on the first N calls (simulates transient 5xx), then succeed.
+  int failuresBeforeSuccess;
   int fetchCount = 0;
 
   @override
   Future<String> fetchXml() async {
     fetchCount++;
     if (throwError) throw Exception('offline');
+    if (fetchCount <= failuresBeforeSuccess) throw Exception('transient 5xx');
     return xmlToReturn;
   }
 }

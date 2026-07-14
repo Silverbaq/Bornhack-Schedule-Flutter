@@ -54,6 +54,7 @@ class _DaySelectionState extends StatelessView<DaySelectionViewModel> {
               final monthStr = _getMonthAbbreviation(e.date.month);
               
               return Tab(
+                height: 54,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

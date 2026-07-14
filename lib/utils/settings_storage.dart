@@ -29,8 +29,9 @@ class SettingsStorage {
   Future<bool> isScheduleAList() async {
     bool isReady = await _storage.ready;
     if (isReady) {
-      String? id = _storage.getItem('scheduleIsAList');
-      return id != null;
+      // Presence of the key is the flag; the stored value type is irrelevant,
+      // so read without casting (the writer stores a bool, not a String).
+      return _storage.getItem('scheduleIsAList') != null;
     } else {
       return false;
     }
