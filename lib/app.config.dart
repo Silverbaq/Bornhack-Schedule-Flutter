@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import 'business_logic/schedule.api.dart' as _i808;
 import 'business_logic/schedule.repository.dart' as _i620;
+import 'utils/schedule_storage.dart' as _i845;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
@@ -26,12 +27,16 @@ _i174.GetIt $initGetIt(
     environment,
     environmentFilter,
   );
+  gh.singleton<_i845.ScheduleStorage>(() => _i845.ScheduleStorage());
   gh.singleton<_i808.ScheduleApi>(
     () => _i808.ScheduleApi(),
     dispose: (i) => i.dispose(),
   );
   gh.singleton<_i620.ScheduleRepository>(
-    () => _i620.ScheduleRepository(gh<_i808.ScheduleApi>()),
+    () => _i620.ScheduleRepository(
+      gh<_i808.ScheduleApi>(),
+      gh<_i845.ScheduleStorage>(),
+    ),
     dispose: (i) => i.dispose(),
   );
   return getIt;
