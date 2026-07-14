@@ -12,6 +12,6 @@ class ScheduleStorage {
 
   Future<void> saveXml(String xml) async {
     await _storage.ready;
-    _storage.setItem('xml', xml);
+    await _storage.setItem('xml', xml);
   }
 }

@@ -20,7 +20,11 @@ class ScheduleRepository {
 
     final cachedXml = await _scheduleStorage.getXml();
     if (cachedXml != null) {
-      _schedule = _parse(cachedXml);
+      try {
+        _schedule = _parse(cachedXml);
+      } catch (_) {
+        // corrupt cache: leave empty; refresh() will overwrite it
+      }
     }
     return _schedule;
   }
@@ -33,8 +37,8 @@ class ScheduleRepository {
   Future<Schedule> _doRefresh() async {
     try {
       final xml = await _scheduleApi.fetchXml();
-      await _scheduleStorage.saveXml(xml);
-      _schedule = _parse(xml);
+      _schedule = _parse(xml); // validate by parsing first
+      await _scheduleStorage.saveXml(xml); // persist only valid XML
       return _schedule;
     } finally {
       _inFlight = null;
