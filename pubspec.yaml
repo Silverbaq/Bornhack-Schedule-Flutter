@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.2+8
+version: 2.0.3+9
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=3.12.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -29,19 +29,19 @@ dependencies:
   xml2json: ^6.2.7
   cupertino_icons: ^1.0.2
   intl: ^0.20.2
-  localstorage: ^4.0.0+1
-  injectable: ^2.5.0
-  get_it: ^8.0.3
+  localstorage: ^6.0.0
+  injectable: ^3.0.0
+  get_it: ^9.2.1
   animations: ^2.0.2
-  awesome_notifications: ^0.10.1
-  timezone: ^0.10.1
+  awesome_notifications: ^0.12.1
+  timezone: ^0.11.1
   shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   # add the generator to your dev_dependencies
-  injectable_generator: ^2.7.0
+  injectable_generator: ^3.1.0
   # add build runner if not already added
   build_runner: ^2.1.4
   flutter_native_splash: ^2.4.0

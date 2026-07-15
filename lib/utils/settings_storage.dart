@@ -1,16 +1,13 @@
 import 'package:localstorage/localstorage.dart';
 
 class SettingsStorage {
-  final LocalStorage _storage = LocalStorage('settings');
-
   Future<int> getThemeIndex() async {
-    await _storage.ready;
-    return _storage.getItem('theme_index') ?? 0; // Default to dark theme
+    return int.tryParse(localStorage.getItem('theme_index') ?? '') ??
+        0; // Default to dark theme
   }
 
   Future<void> setThemeIndex(int themeIndex) async {
-    await _storage.ready;
-    _storage.setItem('theme_index', themeIndex);
+    localStorage.setItem('theme_index', themeIndex.toString());
   }
 
   // Keep existing methods for backward compatibility
@@ -27,22 +24,15 @@ class SettingsStorage {
   // ... existing code for other settings
 
   Future<bool> isScheduleAList() async {
-    bool isReady = await _storage.ready;
-    if (isReady) {
-      // Presence of the key is the flag; the stored value type is irrelevant,
-      // so read without casting (the writer stores a bool, not a String).
-      return _storage.getItem('scheduleIsAList') != null;
-    } else {
-      return false;
-    }
+    // Presence of the key is the flag; the stored value is irrelevant.
+    return localStorage.getItem('scheduleIsAList') != null;
   }
 
   void updateScheduleDisplaySetting(bool isList) {
     if (isList) {
-      _storage.deleteItem('scheduleIsAList');
+      localStorage.removeItem('scheduleIsAList');
     } else {
-      _storage.setItem('scheduleIsAList', isList);
+      localStorage.setItem('scheduleIsAList', 'true');
     }
   }
-
 }

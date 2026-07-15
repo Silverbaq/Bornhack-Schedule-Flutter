@@ -1,6 +1,8 @@
 import 'package:xml/xml.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
+// latest_all (not latest): the reduced `latest` DB drops link/alias zones like
+// Europe/Copenhagen (an alias of Europe/Berlin), which getLocation needs below.
+import 'package:timezone/data/latest_all.dart' as tz;
 
 
 class Event {
