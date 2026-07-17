@@ -1,42 +1,16 @@
 PODS:
-  - awesome_notifications (0.10.0):
-    - Flutter
-    - IosAwnCore (~> 0.10.0)
   - Flutter (1.0.0)
-  - flutter_native_splash (2.4.3):
-    - Flutter
-  - IosAwnCore (0.10.0)
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
 
 DEPENDENCIES:
-  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - Flutter (from `Flutter`)
-  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-
-SPEC REPOS:
-  trunk:
-    - IosAwnCore
 
 EXTERNAL SOURCES:
-  awesome_notifications:
-    :path: ".symlinks/plugins/awesome_notifications/ios"
   Flutter:
     :path: Flutter
-  flutter_native_splash:
-    :path: ".symlinks/plugins/flutter_native_splash/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
-  awesome_notifications: dd5518ff1c80be03d4f1c40f04da9d9cc2a37af5
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
-  IosAwnCore: 653786a911089012092ce831f2945cd339855a89
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
 
-PODFILE CHECKSUM: 74ceb3041936d3691ccc3901f8565f043b53e87c
+PODFILE CHECKSUM: d8cb8a3900668c250c8b0e3937bab08d8eb9b14e
 
 COCOAPODS: 1.16.2

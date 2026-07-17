@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bornhack/app.dart';
 import 'package:bornhack/utils/settings_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 
 import 'business_logic/controllers/notification_controller.dart';
 import 'ui/pages/favorites/favorites.page.dart';
@@ -13,6 +14,8 @@ import 'utils/theme_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initLocalStorage();
 
   configureDependencies();
 

@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/fakes.dart';
+import '../../../support/test_storage.dart';
 
 void main() {
+  setUp(initTestLocalStorage); // DaySelectionViewModel reads SettingsStorage
   tearDown(getIt.reset);
 
   // Regression: the first frame must not build DaySelectionWidget with an empty
